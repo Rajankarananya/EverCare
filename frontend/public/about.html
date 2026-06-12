@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Alzheimer's - EverCare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <style>
+        :root {
+            --primary: #614730;
+            --primary-dark: #6B5745;
+            --secondary: #D2B48C;
+            --light-beige: #F5F5DC;
+            --beige: #E8DCC4;
+            --light-grey: #E5E5E5;
+            --white: #FFFFFF;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-beige);
+        }
+
+        .hero-section {
+            background-image: linear-gradient(rgba(97, 71, 48, 0.7), rgba(97, 71, 48, 0.7)), url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center 30%;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-top: 64px;
+            padding: 2rem 0;
+        }
+
+        .content-card {
+            background: var(--beige);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .help-box {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .footer {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .footer-section h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo a {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+  
+
+        /* Enhanced Animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide-in-left.visible,
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Tools & Resources Section */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tool-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+        }
+        
+        /* New Styles for Enhanced Content */
+        .info-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .info-tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .info-tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary-dark);
+        }
+        
+        .info-tab:hover:not(.active) {
+            border-bottom: 3px solid var(--secondary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .stage-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .stage-card h3 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .medication-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .expert-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-top: 4px solid var(--secondary);
+        }
+        
+        .testimonial-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .testimonial-card:before {
+            content: '"';
+            font-size: 5rem;
+            position: absolute;
+            top: 0;
+            left: 1rem;
+            color: rgba(210, 180, 140, 0.2);
+            line-height: 1;
+        }
+        
+        .warning-box {
+            background-color: #FFF3CD;
+            border-left: 4px solid #FFC107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .fact-box {
+            background-color: #E7F5FF;
+            border-left: 4px solid #4DABF7;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">EverCare</a>
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="about.html">About Alzheimer's</a></li>
+                    <li><a href="tools.html">Tools & Resources</a></li>
+                    <li><a href="journals.html">Journals</a></li>
+                    <li><a href="#help">Help Center</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="text-center w-full">
+            <div data-aos="fade-up" data-aos-duration="1000">
+                <h1 class="text-6xl font-bold mb-6 text-white">Understanding Alzheimer's Disease</h1>
+                <p class="text-2xl max-w-3xl mx-auto text-white leading-relaxed">A comprehensive guide to understanding, recognizing, and managing Alzheimer's disease with compassion and expertise</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-16">
+        <!-- What is Alzheimer's -->
+        <section class="mb-16" data-aos="fade-up" data-aos-duration="1000">
+            <div class="content-card p-8">
+                <h2 class="text-4xl font-bold text-[#614730] mb-8">What is Alzheimer's Disease?</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div data-aos="slide-in-left" data-aos-delay="200">
+                        <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                            Alzheimer's disease is a progressive neurodegenerative disorder that slowly destroys memory and cognitive functions, eventually impairing the ability to carry out even the simplest tasks. It's the most common cause of dementia, accounting for 60-80% of dementia cases.
+                        </p>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            More than 6 million Americans live with Alzheimer's, and this number is projected to rise to nearly 13 million by 2050. Worldwide, about 55 million people have dementia, with Alzheimer's being the most common form.
+                        </p>
+                    </div>
+                    <div data-aos="slide-in-right" data-aos-delay="200">
+                        <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                            Alzheimer's is not a normal part of aging, though age is the greatest known risk factor. The disease results from complex brain changes that begin years before symptoms appear, leading to the loss of brain cells (neurons) and their connections.
+                        </p>
+                        <div class="fact-box">
+                            <p class="text-gray-700 font-semibold">Key Fact: Alzheimer's disease is the 6th leading cause of death in the United States, and the 5th leading cause of death among Americans age 65 and older.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Information Tabs -->
+        <section class="mb-16" data-aos="fade-up">
+            <div class="content-card p-8">
+                <div class="info-tabs">
+                    <div class="info-tab active" onclick="openTab(event, 'causes')">Causes & Risk Factors</div>
+                    <div class="info-tab" onclick="openTab(event, 'stages')">Stages of Alzheimer's</div>
+                    <div class="info-tab" onclick="openTab(event, 'treatment')">Treatment & Medications</div>
+                </div>
+                
+                <!-- Causes & Risk Factors Tab -->
+                <div id="causes" class="tab-content active">
+                    <h3 class="text-3xl font-bold text-[#614730] mb-6">Causes and Risk Factors of Alzheimer's</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-2xl font-semibold text-[#614730] mb-4">Biological Causes</h4>
+                            <p class="text-gray-700 mb-4">Alzheimer's disease is characterized by two main abnormalities in the brain:</p>
+                            <ul class="list-disc pl-6 text-gray-700 mb-6 space-y-2">
+                                <li><strong>Amyloid plaques:</strong> Clumps of beta-amyloid protein that build up between nerve cells</li>
+                                <li><strong>Neurofibrillary tangles:</strong> Twisted fibers of tau protein that accumulate inside brain cells</li>
+                            </ul>
+                            <p class="text-gray-700">These changes begin in areas important for memory before spreading to other regions. As more neurons die, affected brain regions shrink (atrophy).</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-2xl font-semibold text-[#614730] mb-4">Risk Factors</h4>
+                            <p class="text-gray-700 mb-4">While the exact causes aren't fully understood, research has identified several risk factors:</p>
+                            
+                            <div class="warning-box mb-4">
+                                <h5 class="font-bold mb-2">Non-modifiable Risk Factors</h5>
+                                <ul class="list-disc pl-6 space-y-1">
+                                    <li><strong>Age:</strong> Risk increases significantly after 65</li>
+                                    <li><strong>Genetics:</strong> APOE-e4 gene increases risk</li>
+                                    <li><strong>Family history:</strong> Having a first-degree relative with Alzheimer's</li>
+                                    <li><strong>Down syndrome:</strong> Higher risk due to extra chromosome 21</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="fact-box">
+                                <h5 class="font-bold mb-2">Modifiable Risk Factors</h5>
+                                <ul class="list-disc pl-6 space-y-1">
+                                    <li><strong>Cardiovascular health:</strong> High blood pressure, heart disease, stroke</li>
+                                    <li><strong>Diabetes:</strong> Especially poorly controlled type 2 diabetes</li>
+                                    <li><strong>Lifestyle factors:</strong> Smoking, physical inactivity, poor diet</li>
+                                    <li><strong>Head trauma:</strong> Severe or repeated head injuries</li>
+                                    <li><strong>Sleep disorders:</strong> Chronic sleep deprivation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h4 class="text-2xl font-semibold text-[#614730] mb-4">Prevention Strategies</h4>
+                        <p class="text-gray-700 mb-4">While no definitive prevention exists, these strategies may help reduce risk:</p>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="bg-white p-4 rounded-lg shadow">
+                                <h5 class="font-bold text-[#614730] mb-2">Physical Activity</h5>
+                                <p class="text-gray-700">Regular exercise increases blood flow to the brain and may stimulate brain cell growth.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow">
+                                <h5 class="font-bold text-[#614730] mb-2">Healthy Diet</h5>
+                                <p class="text-gray-700">Mediterranean or MIND diets rich in vegetables, berries, nuts and omega-3s.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow">
+                                <h5 class="font-bold text-[#614730] mb-2">Cognitive Stimulation</h5>
+                                <p class="text-gray-700">Lifelong learning, reading, puzzles and social engagement.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stages of Alzheimer's Tab -->
+                <div id="stages" class="tab-content">
+                    <h3 class="text-3xl font-bold text-[#614730] mb-6">The Stages of Alzheimer's Disease</h3>
+                    
+                    <div class="stage-card">
+                        <h3 class="text-2xl font-semibold">Stage 1: Preclinical Alzheimer's</h3>
+                        <p class="text-gray-700 mb-2"><strong>Duration:</strong> Years to decades before symptoms</p>
+                        <p class="text-gray-700">Brain changes begin but no noticeable symptoms. Only detectable through specialized imaging or biomarkers.</p>
+                    </div>
+                    
+                    <div class="stage-card">
+                        <h3 class="text-2xl font-semibold">Stage 2: Mild Cognitive Impairment (MCI)</h3>
+                        <p class="text-gray-700 mb-2"><strong>Duration:</strong> 2-15 years</p>
+                        <p class="text-gray-700 mb-2">Subtle symptoms that don't significantly interfere with daily life:</p>
+                        <ul class="list-disc pl-6 text-gray-700 space-y-1">
+                            <li>Forgetting recent conversations or events</li>
+                            <li>Difficulty finding the right words</li>
+                            <li>Mild problems with organization and planning</li>
+                            <li>Losing things more often</li>
+                        </ul>
+                        <p class="text-gray-700 mt-2">Not everyone with MCI develops Alzheimer's.</p>
+                    </div>
+                    
+                    <div class="stage-card">
+                        <h3 class="text-2xl font-semibold">Stage 3: Mild Alzheimer's Dementia</h3>
+                        <p class="text-gray-700 mb-2"><strong>Duration:</strong> 2-4 years</p>
+                        <p class="text-gray-700 mb-2">Symptoms become noticeable enough to affect daily functioning:</p>
+                        <ul class="list-disc pl-6 text-gray-700 space-y-1">
+                            <li>Increased memory loss, especially for recent events</li>
+                            <li>Difficulty with problem-solving and complex tasks</li>
+                            <li>Getting lost in familiar places</li>
+                            <li>Personality changes (apathy, depression, irritability)</li>
+                            <li>Trouble handling money and paying bills</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stage-card">
+                        <h3 class="text-2xl font-semibold">Stage 4: Moderate Alzheimer's Dementia</h3>
+                        <p class="text-gray-700 mb-2"><strong>Duration:</strong> 2-10 years</p>
+                        <p class="text-gray-700 mb-2">Damage spreads to areas controlling language, reasoning, and sensory processing:</p>
+                        <ul class="list-disc pl-6 text-gray-700 space-y-1">
+                            <li>Greater memory loss, including personal history</li>
+                            <li>Confusion about time and place</li>
+                            <li>Difficulty recognizing family and friends</li>
+                            <li>Problems with reading, writing, and numbers</li>
+                            <li>Restlessness, agitation, suspiciousness, delusions</li>
+                            <li>Repetitive statements or movements</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stage-card">
+                        <h3 class="text-2xl font-semibold">Stage 5: Severe Alzheimer's Dementia</h3>
+                        <p class="text-gray-700 mb-2"><strong>Duration:</strong> 1-3 years</p>
+                        <p class="text-gray-700 mb-2">Final stage where individuals lose the ability to respond to their environment:</p>
+                        <ul class="list-disc pl-6 text-gray-700 space-y-1">
+                            <li>Require round-the-clock assistance</li>
+                            <li>Lose awareness of recent experiences and surroundings</li>
+                            <li>Difficulty communicating, may say only a few words</li>
+                            <li>Vulnerable to infections, especially pneumonia</li>
+                            <li>Physical abilities decline (walking, sitting, swallowing)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <p class="text-gray-700"><strong>Note:</strong> The progression varies significantly between individuals. These timeframes are estimates based on averages.</p>
+                    </div>
+                </div>
+                
+                <!-- Treatment & Medications Tab -->
+                <div id="treatment" class="tab-content">
+                    <h3 class="text-3xl font-bold text-[#614730] mb-6">Treatment and Medications for Alzheimer's</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-2xl font-semibold text-[#614730] mb-4">Current Treatment Approaches</h4>
+                            <p class="text-gray-700 mb-4">While there's no cure for Alzheimer's, treatments can temporarily slow worsening of symptoms and improve quality of life.</p>
+                            
+                            <div class="medication-card">
+                                <h5 class="text-xl font-semibold text-[#614730] mb-2">Cholinesterase Inhibitors</h5>
+                                <p class="text-gray-700 mb-2"><strong>Purpose:</strong> Boost cell-to-cell communication by preventing breakdown of acetylcholine</p>
+                                <p class="text-gray-700 mb-2"><strong>Common Medications:</strong></p>
+                                <ul class="list-disc pl-6 text-gray-700 space-y-1">
+                                    <li>Donepezil (Aricept) - for all stages</li>
+                                    <li>Rivastigmine (Exelon) - for mild to moderate</li>
+                                    <li>Galantamine (Razadyne) - for mild to moderate</li>
+                                </ul>
+                                <p class="text-gray-700 mt-2"><strong>Effectiveness:</strong> May temporarily improve memory and thinking skills</p>
+                            </div>
+                            
+                            <div class="medication-card">
+                                <h5 class="text-xl font-semibold text-[#614730] mb-2">Memantine (Namenda)</h5>
+                                <p class="text-gray-700 mb-2"><strong>Purpose:</strong> Regulates glutamate activity to slow symptom progression</p>
+                                <p class="text-gray-700 mb-2"><strong>Used For:</strong> Moderate to severe Alzheimer's</p>
+                                <p class="text-gray-700"><strong>Effectiveness:</strong> May help maintain daily functions a bit longer</p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-2xl font-semibold text-[#614730] mb-4">Emerging Treatments</h4>
+                            
+                            <div class="medication-card">
+                                <h5 class="text-xl font-semibold text-[#614730] mb-2">Aducanumab (Aduhelm)</h5>
+                                <p class="text-gray-700 mb-2">First FDA-approved therapy that targets amyloid plaques (2021)</p>
+                                <p class="text-gray-700 mb-2"><strong>Controversy:</strong> Effectiveness is debated, requires regular IV infusions</p>
+                                <p class="text-gray-700"><strong>Best for:</strong> Early-stage Alzheimer's patients</p>
+                            </div>
+                            
+                            <div class="medication-card">
+                                <h5 class="text-xl font-semibold text-[#614730] mb-2">Lecanemab (Leqembi)</h5>
+                                <p class="text-gray-700 mb-2">Newer anti-amyloid monoclonal antibody (FDA approved 2023)</p>
+                                <p class="text-gray-700 mb-2"><strong>Effectiveness:</strong> Shows modest slowing of cognitive decline</p>
+                                <p class="text-gray-700"><strong>Considerations:</strong> Requires regular IV infusions and MRI monitoring</p>
+                            </div>
+                            
+                            <h4 class="text-2xl font-semibold text-[#614730] mt-8 mb-4">Non-Drug Therapies</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-white p-3 rounded-lg shadow">
+                                    <h6 class="font-bold text-[#614730]">Cognitive Stimulation</h6>
+                                    <p class="text-gray-700 text-sm">Memory exercises, puzzles, reminiscence therapy</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg shadow">
+                                    <h6 class="font-bold text-[#614730]">Physical Activity</h6>
+                                    <p class="text-gray-700 text-sm">Regular exercise to maintain mobility</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg shadow">
+                                    <h6 class="font-bold text-[#614730]">Music Therapy</h6>
+                                    <p class="text-gray-700 text-sm">Using music to trigger memories and emotions</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg shadow">
+                                    <h6 class="font-bold text-[#614730]">Art Therapy</h6>
+                                    <p class="text-gray-700 text-sm">Creative expression to reduce agitation</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="warning-box mt-8">
+                        <h5 class="font-bold mb-2">Important Considerations</h5>
+                        <ul class="list-disc pl-6 space-y-1">
+                            <li>No current treatment stops or reverses Alzheimer's progression</li>
+                            <li>Medications work differently for each person</li>
+                            <li>Side effects may include nausea, vomiting, diarrhea, dizziness</li>
+                            <li>Always consult with a healthcare provider before trying supplements</li>
+                            <li>Clinical trials may offer access to experimental treatments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expert Advice Section -->
+        <section class="mb-16" data-aos="fade-up" data-aos-duration="1000">
+            <div class="content-card p-8">
+                <h2 class="text-4xl font-bold text-[#614730] mb-8">Expert Advice on Managing Alzheimer's</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <div class="expert-card">
+                            <h4 class="text-2xl font-semibold text-[#614730] mb-3">Early Detection Matters</h4>
+                            <p class="text-gray-700 mb-3"><strong>Dr. Sarah Johnson, Neurologist:</strong></p>
+                            <p class="text-gray-700">"The earlier we can diagnose Alzheimer's, the more treatment options we have to slow progression. Don't dismiss memory lapses as normal aging if they're affecting daily life. Early intervention allows for better planning and access to clinical trials."</p>
+                        </div>
+                        
+                        <div class="expert-card">
+                            <h4 class="text-2xl font-semibold text-[#614730] mb-3">Creating a Supportive Environment</h4>
+                            <p class="text-gray-700 mb-3"><strong>Maria Gonzalez, Geriatric Care Specialist:</strong></p>
+                            <p class="text-gray-700">"Simplify the living space—reduce clutter, improve lighting, use clear labels. Maintain routines as much as possible. These adjustments can significantly reduce confusion and anxiety for Alzheimer's patients."</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="expert-card">
+                            <h4 class="text-2xl font-semibold text-[#614730] mb-3">Communication Strategies</h4>
+                            <p class="text-gray-700 mb-3"><strong>Dr. Robert Chen, Neuropsychiatrist:</strong></p>
+                            <p class="text-gray-700">"Speak slowly and clearly using simple words. Maintain eye contact and be patient—allow extra time for responses. Avoid correcting every mistake, as this can cause frustration. Focus on emotional connection rather than factual accuracy."</p>
+                        </div>
+                        
+                        <div class="expert-card">
+                            <h4 class="text-2xl font-semibold text-[#614730] mb-3">Caregiver Self-Care</h4>
+                            <p class="text-gray-700 mb-3"><strong>Lisa Thompson, Alzheimer's Association:</strong></p>
+                            <p class="text-gray-700">"Caregiver burnout is real and dangerous. You can't pour from an empty cup—take regular breaks, join support groups, and don't hesitate to ask for help. Respite care isn't selfish, it's necessary for sustainable caregiving."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Personal Stories Section -->
+        <section id="stories" class="mb-16" data-aos="fade-up" data-aos-duration="1000">
+            <div class="content-card p-8">
+                <h2 class="text-4xl font-bold text-[#614730] mb-8">Personal Stories and Caregiver Experiences</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <div class="testimonial-card">
+                            <p class="text-gray-700 italic mb-4">"When my husband was diagnosed at 68, our world turned upside down. The hardest part was watching this brilliant engineer struggle with basic tasks. But we found joy in simple moments—listening to his favorite jazz records, looking at old photo albums. The disease may have taken his memories, but it couldn't take our love."</p>
+                            <p class="text-gray-700 font-semibold">— Margaret, 72, caregiver for 6 years</p>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <p class="text-gray-700 italic mb-4">"As a daughter caring for my mom, I learned to enter her reality rather than correct her. When she thought I was her sister from 50 years ago, I played along. It kept her calm and happy. The key is flexibility—your relationship changes, but the love remains."</p>
+                            <p class="text-gray-700 font-semibold">— Jennifer, 45</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="testimonial-card">
+                            <p class="text-gray-700 italic mb-4">"I was diagnosed with early-onset Alzheimer's at 58. At first I was terrified, but joining a support group changed everything. We share tips, laugh about our 'blonde moments,' and remind each other we're more than our diagnosis. My advice? Keep doing what you love for as long as possible—I still paint every day."</p>
+                            <p class="text-gray-700 font-semibold">— David, living with Alzheimer's</p>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <p class="text-gray-700 italic mb-4">"The guilt was overwhelming at first—should I have noticed symptoms earlier? Could I be doing more? Therapy helped me understand that Alzheimer's is nobody's fault. Now I focus on making my dad feel safe and loved each day, rather than dwelling on what might have been."</p>
+                            <p class="text-gray-700 font-semibold">— Michael, 38</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8">
+                    <h4 class="text-2xl font-semibold text-[#614730] mb-4">Lessons from the Alzheimer's Journey</h4>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h5 class="font-bold text-[#614730] mb-2">Cherish Small Wins</h5>
+                            <p class="text-gray-700">Celebrate good moments—a shared laugh, recognizing a familiar face, enjoying a meal.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h5 class="font-bold text-[#614730] mb-2">Let Go of Perfection</h5>
+                            <p class="text-gray-700">Some days will be hard. What matters is showing up with patience and compassion.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h5 class="font-bold text-[#614730] mb-2">Find Your Tribe</h5>
+                            <p class="text-gray-700">Connect with others who understand—online forums, local support groups, or therapy.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why EverCare Section -->
+        <section class="mb-16" data-aos="fade-up" data-aos-duration="1000">
+            <div class="content-card p-8">
+                <h2 class="text-4xl font-bold text-[#614730] mb-8 text-center">Why Choose EverCare?</h2>
+                <p class="text-xl text-gray-700 text-center mb-12 max-w-3xl mx-auto">
+                    We're more than just a resource platform - we're your dedicated partner in the Alzheimer's journey, providing comprehensive support with compassion and expertise.
+                </p>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        <div class="text-4xl text-[#614730] mb-4 text-center">🤝</div>
+                        <h3 class="text-2xl font-bold text-[#614730] mb-3 text-center">Holistic Support</h3>
+                        <p class="text-gray-700">
+                            From early diagnosis to long-term care planning, we provide comprehensive resources and support for every stage of the Alzheimer's journey.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        <div class="text-4xl text-[#614730] mb-4 text-center">👥</div>
+                        <h3 class="text-2xl font-bold text-[#614730] mb-3 text-center">Community-Driven</h3>
+                        <p class="text-gray-700">
+                            Connect with others who understand your journey. Our community of caregivers, patients, and experts provides invaluable support and shared experiences.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        <div class="text-4xl text-[#614730] mb-4 text-center">📚</div>
+                        <h3 class="text-2xl font-bold text-[#614730] mb-3 text-center">Expert Knowledge</h3>
+                        <p class="text-gray-700">
+                            Access the latest research, treatment options, and care strategies, curated by leading Alzheimer's specialists and healthcare professionals.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mt-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        <div class="text-4xl text-[#614730] mb-4 text-center">⚡</div>
+                        <h3 class="text-2xl font-bold text-[#614730] mb-3 text-center">Innovative Tools</h3>
+                        <ul class="text-gray-700 space-y-2">
+                            <li class="flex items-center">
+                                <span class="text-[#614730] mr-2">✓</span>
+                                Personalized care planning tools
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-[#614730] mr-2">✓</span>
+                                Interactive memory exercises
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-[#614730] mr-2">✓</span>
+                                Medication tracking systems
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-[#614730] mr-2">✓</span>
+                                Daily activity monitoring
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        <div class="text-4xl text-[#614730] mb-4 text-center">💪</div>
+                        <h3 class="text-2xl font-bold text-[#614730] mb-3 text-center">Ongoing Support</h3>
+                        <ul class="text-gray-700 space-y-2">
+                            <li class="flex items-center">
+                                <span class="text-[#614730] mr-2">✓</span>
+                                24/7 helpline access
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-[#614730] mr-2">✓</span>
+                                Regular support group meetings
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-[#614730] mr-2">✓</span>
+                                Professional counseling services
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-[#614730] mr-2">✓</span>
+                                Caregiver training programs
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <a href="register.html" class="inline-block bg-[#614730] text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#4A3623] transition-colors">
+                        Join Our Community Today
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Help Box -->
+        <section class="help-box" data-aos="fade-up" data-aos-duration="1000">
+            <h2 class="text-3xl font-bold mb-4">Need Help?</h2>
+            <p class="text-xl mb-6">We're here to support you on your journey with Alzheimer's</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button class="bg-white text-[#614730] px-8 py-3 rounded-lg font-semibold hover:bg-[#E8DCC4] transition-colors">
+                    24/7 Helpline: (800) 272-3900
+                </button>
+                <a href="help.html" class="bg-white text-[#614730] px-8 py-3 rounded-lg font-semibold hover:bg-[#E8DCC4] transition-colors">
+                    Find Local Resources
+                </a>
+                <a href="contact.html" class="bg-[#D2B48C] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#C4A484] transition-colors">
+                    Join a Support Group
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#4A3628] text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- About EverCare -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">EverCare</h3>
+                    <p class="mb-4">A student based initiative for patients and their supporters who are suffering from Alzheimer's.</p>
+                    <div class="flex space-x-4">
+                        <a href="https://facebook.com" target="_blank" class="text-white hover:text-[#F5F5DC]"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com" target="_blank" class="text-white hover:text-[#F5F5DC]"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com" target="_blank" class="text-white hover:text-[#F5F5DC]"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-[#F5F5DC]">Home</a></li>
+                        <li><a href="about.html" class="hover:text-[#F5F5DC]">About</a></li>
+                        <li><a href="tools.html" class="hover:text-[#F5F5DC]">Tools</a></li>
+                        <li><a href="journals.html" class="hover:text-[#F5F5DC]">Journals</a></li>
+                        <li><a href="personal_plan.html" class="hover:text-[#F5F5DC]">Personal Plan</a></li>
+                        <li><a href="help.html" class="hover:text-[#F5F5DC]">Help</a></li>
+                        <li><a href="contact.html" class="hover:text-[#F5F5DC]">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Emergency Contacts -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Emergency Contacts</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2"></i>
+                            <span>24/7 Helpline: 9604416699</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-ambulance mr-2"></i>
+                            <span>Ambulance: 108</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-hospital mr-2"></i>
+                            <span>Emergency Room: 102</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-shield-alt mr-2"></i>
+                            <span>Police: 100</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Newsletter</h3>
+                    <p class="mb-4">Stay updated with our latest resources and support information.</p>
+                    <form class="space-y-3">
+                        <div class="flex">
+                            <input type="email" placeholder="Your email" class="p-2 rounded-l-lg w-full text-gray-800">
+                            <button type="submit" class="bg-[#8B4513] px-4 rounded-r-lg hover:bg-[#614730] transition duration-300">
+                                Subscribe
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="border-t border-[#614730] mt-8 pt-8 text-center">
+                <p>© 2025 EverCare - @ananyarajanakr. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+        
+        function openTab(evt, tabName) {
+            // Hide all tab contents
+            var tabContents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // Remove active class from all tabs
+            var tabs = document.getElementsByClassName("info-tab");
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            
+            // Show the current tab and add active class
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>

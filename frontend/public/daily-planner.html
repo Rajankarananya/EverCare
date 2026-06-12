@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Schedule Planner | EverCare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #614730;
+            --secondary: #F5F5DC;
+            --text-dark: #4A3628;
+            --text-light: #8B4513;
+            --white: #FFFFFF;
+            --gray-light: #F5F6FA;
+            --success: #4CAF50;
+            --error: #DC3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary);
+            color: var(--text-dark);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .task-section {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .calendar-section {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .planning-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .print-button {
+            background-color: var(--secondary);
+            color: var(--primary);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+        }
+
+        .print-button:hover {
+            background-color: var(--text-light);
+            color: var(--white);
+        }
+
+        .task-form {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--text-light);
+            border-radius: 4px;
+            background-color: var(--gray-light);
+        }
+
+        button {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: var(--text-dark);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .calendar-day {
+            background-color: var(--secondary);
+            border: 1px solid var(--text-light);
+            border-radius: 4px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 80px;
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .calendar-day.today {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .calendar-day.has-activity::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background-color: var(--success);
+            border-radius: 50%;
+        }
+
+        .activity-list {
+            margin-top: 2rem;
+        }
+
+        .activity-item {
+            background: var(--gray-light);
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .activity-item button {
+            background-color: var(--error);
+            width: auto;
+            padding: 5px 10px;
+        }
+
+        .calendar-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-navigation button {
+            width: auto;
+            padding: 5px 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Navigation Header Styles */
+        .nav-header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-menu a.active {
+            color: var(--secondary);
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .social-links a {
+            color: var(--white);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--primary);
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+        }
+
+        @media print {
+            .nav-header, .footer, .task-section, .print-button {
+                display: none;
+            }
+            
+            .container {
+                display: block;
+                padding: 0;
+                margin: 0;
+            }
+            
+            .calendar-section {
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            .calendar-grid {
+                page-break-inside: avoid;
+            }
+            
+            .activity-list {
+                page-break-inside: avoid;
+            }
+            
+            body {
+                background-color: white;
+            }
+            
+            .section-header {
+                background-color: white;
+                color: var(--primary);
+                border: 1px solid var(--primary);
+            }
+            
+            .calendar-day {
+                border: 1px solid #000;
+            }
+            
+            .activity-item {
+                border: 1px solid #000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="nav-header">
+        <nav class="nav-container">
+            <a href="index.html" class="logo">EverCare</a>
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Task Form Section -->
+        <section class="task-section">
+            <div class="section-header">
+                <h2>Add New Activity</h2>
+            </div>
+            <img src="/images/plan.jpg" alt="Planning" class="planning-image">
+            <form class="task-form" id="activityForm">
+                <div class="form-group">
+                    <label for="activityName">Activity Name</label>
+                    <input type="text" id="activityName" required>
+                </div>
+                <div class="form-group">
+                    <label for="activityDate">Date</label>
+                    <input type="date" id="activityDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="activityTime">Time</label>
+                    <input type="time" id="activityTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="activityDuration">Duration (minutes)</label>
+                    <input type="number" id="activityDuration" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="activityNotes">Notes</label>
+                    <textarea id="activityNotes" rows="3"></textarea>
+                </div>
+                <button type="submit">Add Activity</button>
+            </form>
+        </section>
+
+        <!-- Calendar Section -->
+        <section class="calendar-section">
+            <div class="section-header">
+                <h2>Daily Schedule Planner</h2>
+                <button class="print-button" onclick="window.print()">
+                    <i class="fas fa-print"></i> Print Schedule
+                </button>
+            </div>
+            
+            <div class="calendar-navigation">
+                <button onclick="previousMonth()"><i class="fas fa-chevron-left"></i></button>
+                <h2 id="currentMonth">September 2023</h2>
+                <button onclick="nextMonth()"><i class="fas fa-chevron-right"></i></button>
+            </div>
+
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- Calendar days will be generated here -->
+            </div>
+
+            <div class="activity-list" id="activityList">
+                <!-- Activities will be displayed here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Tools & Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="cognitive-exercises.html">Cognitive Exercises</a></li>
+                    <li><a href="medication-tracker.html">Medication Tracker</a></li>
+                    <li><a href="daily-planner.html">Daily Planner</a></li>
+                    <li><a href="resources.html">Support Resources</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Emergency Contact</h3>
+                <p>24/7 Helpline: 1-800-XXX-XXXX</p>
+                <p>Email: support@evercare.com</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 EverCare. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const menu = document.querySelector('.nav-menu');
+            menu.classList.toggle('active');
+        }
+
+        // Calendar functionality
+        let currentDate = new Date();
+        let activities = [];
+
+        function generateCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            document.getElementById('currentMonth').textContent = 
+                new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' });
+
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startingDay = firstDay.getDay();
+            const totalDays = lastDay.getDate();
+
+            const calendarGrid = document.getElementById('calendarGrid');
+            calendarGrid.innerHTML = '';
+
+            // Add day headers
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            days.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.textContent = day;
+                dayHeader.style.fontWeight = 'bold';
+                calendarGrid.appendChild(dayHeader);
+            });
+
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < startingDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                calendarGrid.appendChild(emptyDay);
+            }
+
+            // Add days of the month
+            for (let day = 1; day <= totalDays; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                
+                // Highlight current day
+                if (year === new Date().getFullYear() && 
+                    month === new Date().getMonth() && 
+                    day === new Date().getDate()) {
+                    dayElement.style.backgroundColor = 'var(--primary)';
+                    dayElement.style.color = 'var(--white)';
+                }
+
+                // Check if day has activities
+                const hasActivities = activities.some(activity => {
+                    const activityDate = new Date(activity.date);
+                    return activityDate.getDate() === day && 
+                           activityDate.getMonth() === month && 
+                           activityDate.getFullYear() === year;
+                });
+
+                if (hasActivities) {
+                    const dot = document.createElement('div');
+                    dot.style.width = '4px';
+                    dot.style.height = '4px';
+                    dot.style.backgroundColor = 'var(--secondary)';
+                    dot.style.borderRadius = '50%';
+                    dot.style.margin = '2px auto';
+                    dayElement.appendChild(dot);
+                }
+
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            generateCalendar();
+        }
+
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            generateCalendar();
+        }
+
+        // Activity management
+        document.getElementById('activityForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            addActivity(event);
+        });
+
+        function addActivity(event) {
+            const activity = {
+                name: document.getElementById('activityName').value,
+                date: document.getElementById('activityDate').value,
+                time: document.getElementById('activityTime').value,
+                duration: document.getElementById('activityDuration').value,
+                notes: document.getElementById('activityNotes').value
+            };
+
+            activities.push(activity);
+            updateActivityList();
+            generateCalendar();
+            event.target.reset();
+        }
+
+        function updateActivityList() {
+            const activityList = document.getElementById('activityList');
+            activityList.innerHTML = '<h2>Upcoming Activities</h2>';
+
+            activities.sort((a, b) => new Date(a.date + 'T' + a.time) - new Date(b.date + 'T' + b.time));
+
+            activities.forEach((activity, index) => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div>
+                        <strong>${activity.name}</strong>
+                        <p>${activity.date} at ${activity.time} (${activity.duration} minutes)</p>
+                        <p><em>${activity.notes}</em></p>
+                    </div>
+                    <button onclick="deleteActivity(${index})">Delete</button>
+                `;
+                activityList.appendChild(activityItem);
+            });
+        }
+
+        function deleteActivity(index) {
+            activities.splice(index, 1);
+            updateActivityList();
+            generateCalendar();
+        }
+
+        // Initialize the calendar
+        generateCalendar();
+    </script>
+</body>
+</html>

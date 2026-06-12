@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Resources - EverCare</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #614730; /* Brown */
+            --primary-dark: #4A3628;
+            --secondary: #F5F5DC; /* Beige */
+            --accent: #8B4513;
+            --text-dark: #333333;
+            --text-medium: #666666;
+            --text-light: #999999;
+            --white: #FFFFFF;
+            --light-grey: #EEEEEE;
+            --medium-grey: #999999;
+            --dark-grey: #4A3628;
+            --light-beige: #F5F5DC;
+            --beige: #E8DCC4;
+            --emergency: #B22222;
+            --jet-black:#333333;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--light-beige);
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        button, .btn {
+            cursor: pointer;
+            padding: 12px 24px;
+            border-radius: 5px;
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            gap: 20px;
+        }
+
+        .logo a {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .search-btn {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            color: var(--text-dark);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .emergency-contact {
+            background-color: #FFF8DC;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        .emergency-contact p {
+            margin: 0.5rem 0;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .resource-card {
+            border: 1px solid var(--secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            background-color: white;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.2);
+        }
+
+        .resource-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .resource-content {
+            padding: 1rem;
+        }
+
+        .resource-content h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-content p {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .resource-content a {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .resource-content a:hover {
+            background-color: var(--primary);
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .footer-section h3 {
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section ul li a {
+            color: var(--light-beige);
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--white);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+
+        .pune-info {
+            background-color: var(--beige);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem auto;
+            max-width: 1200px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .pune-info h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .pune-info p {
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .resources-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">EverCare</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="tools.html">Tools&Resources</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            </div>
+            <div class="mobile-menu">☰</div>
+        </div>
+    </header>
+
+    <div class="emergency-contact">
+        <p>Emergency Hotline: 112 (India)</p>
+        <p>Police: 100 | Fire: 101 | Ambulance: 108</p>
+        <p>Alzheimer's Association India Helpline: 1800-300-1066</p>
+    </div>
+
+    <div class="pune-info">
+        <h2>Pune Emergency Resources</h2>
+        <p>This page provides emergency resources specific to Pune, Maharashtra. In case of emergency, dial the numbers above or visit the nearest emergency facility listed below.</p>
+    </div>
+
+    <div class="resources-grid">
+        <div class="resource-card">
+            <img src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc" alt="Medical Emergency">
+            <div class="resource-content">
+                <h3>Medical Emergency</h3>
+                <p>Find nearby hospitals and medical facilities in Pune.</p>
+                <a href="https://www.justdial.com/Pune/Hospitals/nct-10193644">Find Pune Hospitals</a>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <img src="/images/fire.jpg" alt="Fire Emergency">
+            <div class="resource-content">
+                <h3>Fire Emergency</h3>
+                <p>Access Pune Fire Department contacts and safety guidelines.</p>
+                <a href="https://www.pmc.gov.in/en/fire">Pune Fire Department</a>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <img src="/images/police.jpg" alt="Police Emergency">
+            <div class="resource-content">
+                <h3>Police Emergency</h3>
+                <p>Contact Pune Police and report incidents.</p>
+                <a href="https://punepolice.gov.in/">Pune Police</a>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <img src="/images/weather.webp" alt="Weather Alerts">
+            <div class="resource-content">
+                <h3>Weather Alerts</h3>
+                <p>Stay informed about weather conditions in Pune.</p>
+                <a href="https://www.accuweather.com/en/in/pune/204848/weather-forecast/204848">Pune Weather</a>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <img src="/images/help2.webp" alt="Senior Care Facilities">
+            <div class="resource-content">
+                <h3>Senior Care Facilities</h3>
+                <p>Find senior care and assisted living facilities in Pune.</p>
+                <a href="https://www.justdial.com/Pune/Old-Age-Homes/nct-10193644">Pune Senior Care</a>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <img src="/images/d.jpg" alt="Emergency Preparedness">
+            <div class="resource-content">
+                <h3>Emergency Preparedness</h3>
+                <p>Learn how to prepare for emergencies in Pune.</p>
+                <a href="https://ndma.gov.in/">Disaster Management</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="pune-info">
+        <h2>Key Emergency Facilities in Pune</h2>
+        <p><strong>Major Hospitals:</strong></p>
+        <ul>
+            <li>Ruby Hall Clinic - 020-6645 5555</li>
+            <li>Jehangir Hospital - 020-6681 9999</li>
+            <li>Deenanath Mangeshkar Hospital - 020-6600 6000</li>
+            <li>Sassoon General Hospital - 020-6600 6000</li>
+            <li>KEM Hospital - 020-6600 6000</li>
+        </ul>
+        <p><strong>Alzheimer's Support:</strong></p>
+        <ul>
+            <li>Alzheimer's and Related Disorders Society of India (ARDSI) Pune Chapter - 020-2544 4444</li>
+            <li>Silver Innings Foundation - 098198 19191</li>
+        </ul>
+        <p><strong>Emergency Services:</strong></p>
+        <ul>
+            <li>Pune Police Control Room - 020-2612 7272</li>
+            <li>Pune Fire Department - 020-2612 7272</li>
+            <li>Pune Municipal Corporation Helpline - 020-2550 1000</li>
+        </ul>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About EverCare</h3>
+                <p>EverCare is dedicated to supporting individuals and families affected by Alzheimer's disease through education, resources, and community.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="emergency_resources.html">Emergency</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>Email: info@evercare.org</li>
+                    <li>Phone: (555) 123-4567</li>
+                    <li>Address: 123 Care Street, Pune, Maharashtra 411001</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 EverCare. All rights reserved.</p>
+            <p>This information is for emergency reference only. In case of emergency, dial 112 (India).</p>
+        </div>
+    </footer>
+</body>
+</html> 

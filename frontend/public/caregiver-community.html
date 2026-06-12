@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caregiver Community | EverCare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #614730;
+            --secondary: #F5F5DC;
+            --accent: #8B4513;
+            --text-dark: #333333;
+            --text-medium: #666666;
+            --white: #FFFFFF;
+            --light-grey: #EEEEEE;
+            --success: #4CAF50;
+            --warning: #FFA500;
+            --danger: #DC3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                            url('https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        .nav {
+            background-color: var(--primary);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            color: var(--white);
+            font-size: 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--secondary);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .community-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Support Groups Section */
+        .support-groups {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .group-card {
+            background: var(--light-grey);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .group-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .group-meta {
+            color: var(--text-medium);
+            font-size: 0.9rem;
+        }
+
+        .group-description {
+            margin-bottom: 1rem;
+        }
+
+        .group-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-secondary {
+            background-color: var(--accent);
+            color: var(--white);
+        }
+
+        /* Resource Sharing Section */
+        .resources {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .resource-card {
+            background: var(--light-grey);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .resource-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-description {
+            color: var(--text-medium);
+            margin-bottom: 1rem;
+        }
+
+        .resource-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-medium);
+        }
+
+        /* Create New Section */
+        .create-new {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--light-grey);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .community-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+            
+            .nav-menu.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--primary);
+                padding: 1rem;
+            }
+
+            .menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: var(--white);
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">EverCare</a>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="help.html">Help</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="header">
+        <h1>Caregiver Community - Pune</h1>
+        <p>Connect with other caregivers in Pune, share experiences, and find local support in your caregiving journey</p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="community-grid">
+            <!-- Support Groups Section -->
+            <section class="support-groups">
+                <h2>Local Support Groups</h2>
+                <div class="group-card">
+                    <div class="group-header">
+                        <h3 class="group-title">Pune Alzheimer's Support Group</h3>
+                        <span class="group-meta">Deenanath Mangeshkar Hospital</span>
+                    </div>
+                    <p class="group-description">Monthly meetings at Deenanath Mangeshkar Hospital, Pune. Share experiences and learn from local caregivers and medical professionals.</p>
+                    <div class="group-actions">
+                        <a href="https://www.dmhospital.org/" target="_blank" class="btn btn-primary">Visit Website</a>
+                        <button class="btn btn-secondary">Call: 020-2515-1000</button>
+                    </div>
+                </div>
+
+                <div class="group-card">
+                    <div class="group-header">
+                        <h3 class="group-title">KEM Hospital Caregiver Network</h3>
+                        <span class="group-meta">KEM Hospital</span>
+                    </div>
+                    <p class="group-description">Weekly support meetings at KEM Hospital, Pune. Connect with experienced caregivers and healthcare professionals.</p>
+                    <div class="group-actions">
+                        <a href="https://www.kemhospitalpune.org/" target="_blank" class="btn btn-primary">Visit Website</a>
+                        <button class="btn btn-secondary">Call: 020-6603-7300</button>
+                    </div>
+                </div>
+
+                <div class="group-card">
+                    <div class="group-header">
+                        <h3 class="group-title">Pune Dementia Support Network</h3>
+                        <span class="group-meta">ARDSI Pune Chapter</span>
+                    </div>
+                    <p class="group-description">Online and in-person meetings for caregivers in the Pune region. Organized by ARDSI Pune Chapter.</p>
+                    <div class="group-actions">
+                        <a href="https://alzsupportpune.org/" target="_blank" class="btn btn-primary">Visit Website</a>
+                        <button class="btn btn-secondary">Call: 020-2546-7890</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resource Sharing Section -->
+            <section class="resources">
+                <h2>Local Resources</h2>
+                <div class="resource-card">
+                    <h3 class="resource-title">Pune Healthcare Directory</h3>
+                    <p class="resource-description">List of neurologists, geriatric care facilities, and memory clinics in Pune.</p>
+                    <div class="resource-meta">
+                        <span>Pune Medical Association</span>
+                        <a href="https://pune.gov.in/public-utility-category/hospitals/" target="_blank" class="btn btn-secondary">Visit Directory</a>
+                    </div>
+                </div>
+
+                <div class="resource-card">
+                    <h3 class="resource-title">महाराष्ट्र Caregiver Resources</h3>
+                    <p class="resource-description">Comprehensive resources in Marathi and English for caregivers in Maharashtra.</p>
+                    <div class="resource-meta">
+                        <span>Maharashtra Health Department</span>
+                        <a href="https://nrhm.maharashtra.gov.in/" target="_blank" class="btn btn-secondary">View Resources</a>
+                    </div>
+                </div>
+
+                <div class="resource-card">
+                    <h3 class="resource-title">Local Services Directory</h3>
+                    <p class="resource-description">List of home care services, meal delivery, and medical equipment suppliers in Pune.</p>
+                    <div class="resource-meta">
+                        <span>Pune Municipal Corporation</span>
+                        <a href="https://www.pmc.gov.in/mr/health" target="_blank" class="btn btn-secondary">View Services</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- If Lost Section -->
+            <section class="resources" style="margin-top: 2rem;">
+                <h2>If Lost or Need Immediate Help</h2>
+                <div class="resource-card" style="background-color: #fff3cd; border: 1px solid #ffeeba;">
+                    <h3 class="resource-title" style="color: #856404;">Emergency Numbers</h3>
+                    <ul style="list-style: none; margin-bottom: 1rem;">
+                        <li style="margin-bottom: 0.5rem;">🚨 Police Emergency: 112</li>
+                        <li style="margin-bottom: 0.5rem;">🚑 Ambulance: 108</li>
+                        <li style="margin-bottom: 0.5rem;">🏥 EverCare Helpline: 96044-16699</li>
+                        <li style="margin-bottom: 0.5rem;">👮‍♂️ Pune Police Control Room: 020-2612-6296</li>
+                        <li style="margin-bottom: 0.5rem;">🚓 Missing Persons Bureau: 020-2612-3456</li>
+                    </ul>
+                    <h3 class="resource-title" style="color: #856404;">Important Information to Keep Ready</h3>
+                    <ul style="list-style: none;">
+                        <li style="margin-bottom: 0.5rem;">📝 Patient's full name and photo</li>
+                        <li style="margin-bottom: 0.5rem;">🏥 Medical conditions and medications</li>
+                        <li style="margin-bottom: 0.5rem;">🏠 Home address and landmark</li>
+                        <li style="margin-bottom: 0.5rem;">👥 Family contact numbers</li>
+                        <li style="margin-bottom: 0.5rem;">💊 Regular doctor's contact</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- Create New Section -->
+        <section class="create-new">
+            <h2>Share Your Experience</h2>
+            <form id="shareForm">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" class="form-control" placeholder="Enter a title for your post">
+                </div>
+                <div class="form-group">
+                    <label for="content">Content</label>
+                    <textarea id="content" class="form-control" placeholder="Share your experience, advice, or resources..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select id="type" class="form-control">
+                        <option value="experience">Experience</option>
+                        <option value="advice">Advice</option>
+                        <option value="resource">Resource</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Share</button>
+            </form>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Local Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="https://www.kemhospitalpune.org" target="_blank">KEM Hospital</a></li>
+                    <li><a href="http://ardsipune.org" target="_blank">ARDSI Pune Chapter</a></li>
+                    <li><a href="https://www.dmhospital.org" target="_blank">Deenanath Mangeshkar Hospital</a></li>
+                    <li><a href="https://www.sancheti.org" target="_blank">Sancheti Hospital</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Emergency Contacts</h3>
+                <p>24/7 Helpline: <a href="tel:+919604416699">96044 16699</a></p>
+                <p>Pune Police: <a href="tel:112">112</a></p>
+                <p>Ambulance: <a href="tel:108">108</a></p>
+                <p>Email: support@evercare.com</p>
+                <p>Address: Office No. 7, Kumar Business Centre, Bund Garden Road, Pune - 411001</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 EverCare Pune. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        }
+
+        // Form submission handler
+        document.getElementById('shareForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+            const type = document.getElementById('type').value;
+
+            // Here you would typically send this data to your backend
+            console.log('Sharing:', { title, content, type });
+            
+            // Show success message
+            alert('Thank you for sharing! Your post will be reviewed and published soon.');
+            
+            // Clear form
+            this.reset();
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center | EverCare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #614730;
+            --primary-dark: #4A3628;
+            --primary-light: #8B6B4D;
+            --secondary: #F5F5DC;
+            --accent: #8B4513;
+            --text: #333333;
+            --white: #FFFFFF;
+            --gray-light: #F5F5F5;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            color: var(--text);
+            background-color: var(--white);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .help-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .help-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--gray-light);
+            transition: all 0.3s ease;
+        }
+
+        .faq-question {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+        }
+
+        .emergency-banner {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 99;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        .resource-card {
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateX(5px);
+        }
+
+        .search-box {
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus-within {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Enhanced Header -->
+    <header class="sticky top-0 bg-white shadow-sm z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-2xl font-bold"><span class="gradient-text">EverCare</span></a>
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="about.html" class="hover:text-[#614730]">About</a>
+                    <a href="tools.html" class="hover:text-[#614730]">Tools</a>
+                    <a href="journals.html" class="hover:text-[#614730]">Journals</a>
+                    <a href="help.html" class="font-semibold text-[#614730]">Help Center</a>
+                    <a href="contact.html" class="hover:text-[#614730]">Contact</a>
+                </nav>
+                <button class="md:hidden p-2 rounded-full hover:bg-gray-100" id="mobileMenuBtn">
+                    <i class="fas fa-bars text-[#614730]"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu hidden fixed inset-0 bg-white z-40 pt-16 px-4" id="mobileMenu">
+        <ul class="space-y-4">
+            <li><a href="about.html" class="block py-2 text-lg hover:text-[#614730]">About</a></li>
+            <li><a href="tools.html" class="block py-2 text-lg hover:text-[#614730]">Tools</a></li>
+            <li><a href="journals.html" class="block py-2 text-lg hover:text-[#614730]">Journals</a></li>
+            <li><a href="help.html" class="block py-2 text-lg font-semibold text-[#614730]">Help Center</a></li>
+            <li><a href="contact.html" class="block py-2 text-lg hover:text-[#614730]">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative py-20 text-white overflow-hidden" id="heroSection">
+        <div class="absolute inset-0">
+            <img src="../public/images/help2.webp" alt="Alzheimer's Care" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-[#4A3628] to-[#614730] opacity-80"></div>
+        </div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6" data-aos="fade-up">Alzheimer's Help Center</h1>
+                <p class="text-xl mb-8" data-aos="fade-up" data-aos-delay="100">Find answers, caregiving tips, and support resources</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- Emergency Alert -->
+        <div class="emergency-banner bg-[#ff6b6b] text-white p-4 rounded-lg mb-8 text-center" data-aos="fade-up">
+            <h3 class="font-bold text-lg mb-1">24/7 Crisis Support</h3>
+            <p>For immediate assistance, please <a href="contact.html" class="underline font-semibold hover:text-white">contact us</a></p>
+        </div>
+
+        <!-- Key Sections -->
+        <div class="grid md:grid-cols-3 gap-8 mb-12">
+            <!-- Understanding Alzheimer's -->
+            <div class="help-card bg-white p-6 rounded-lg shadow" data-aos="fade-up" data-aos-delay="100">
+                <div class="text-[#614730] text-3xl mb-4">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Understanding Alzheimer's</h3>
+                <ul class="space-y-2">
+                    <li class="flex items-center">
+                        <i class="fas fa-circle text-[#8B6B4D] mr-2 text-xs"></i>
+                        <span>Stages of progression</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-circle text-[#8B6B4D] mr-2 text-xs"></i>
+                        <span>Early warning signs</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-circle text-[#8B6B4D] mr-2 text-xs"></i>
+                        <span>Diagnosis process</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-circle text-[#8B6B4D] mr-2 text-xs"></i>
+                        <span>Treatment options</span>
+                    </li>
+                </ul>
+                <a href="about.html" class="mt-4 inline-block text-[#614730] hover:text-[#4A3628] font-semibold">
+                    Learn More <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+
+            <!-- Daily Care -->
+            <div class="help-card bg-white p-6 rounded-lg shadow" data-aos="fade-up" data-aos-delay="200">
+                <div class="text-[#614730] text-3xl mb-4">
+                    <i class="fas fa-hands-helping"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Daily Care Guide</h3>
+                <ul class="space-y-2">
+                    <li class="flex items-center">
+                        <i class="fas fa-circle text-[#8B6B4D] mr-2 text-xs"></i>
+                        <span>Communication strategies</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-circle text-[#8B6B4D] mr-2 text-xs"></i>
+                        <span>Meal planning tips</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-circle text-[#8B6B4D] mr-2 text-xs"></i>
+                        <span>Bathing & dressing</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-circle text-[#8B6B4D] mr-2 text-xs"></i>
+                        <span>Home safety checklist</span>
+                    </li>
+                </ul>
+                <a href="tools.html" class="mt-4 inline-block text-[#614730] hover:text-[#4A3628] font-semibold">
+                    Learn More <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+
+            <!-- Emotional Support -->
+            <div class="help-card bg-white p-6 rounded-lg shadow" data-aos="fade-up" data-aos-delay="300">
+                <div class="text-[#614730] text-3xl mb-4">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Emotional Support</h3>
+                <ul class="space-y-2">
+                    <li class="flex items-center">
+                        <i class="fas fa-circle text-[#8B6B4D] mr-2 text-xs"></i>
+                        <span>Caregiver stress relief</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-circle text-[#8B6B4D] mr-2 text-xs"></i>
+                        <span>Support groups</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-circle text-[#8B6B4D] mr-2 text-xs"></i>
+                        <span>Grief counseling</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-circle text-[#8B6B4D] mr-2 text-xs"></i>
+                        <span>Family mediation</span>
+                    </li>
+                </ul>
+                <a href="#" class="mt-4 inline-block text-[#614730] hover:text-[#4A3628] font-semibold">
+                    Learn More <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Comprehensive FAQ -->
+        <section class="mb-16" data-aos="fade-up">
+            <h2 class="text-2xl font-bold mb-6 text-[#614730] border-b pb-2">
+                <i class="fas fa-question-circle mr-2"></i> Frequently Asked Questions
+            </h2>
+            
+            <div class="bg-white rounded-lg shadow">
+                <!-- Medical Questions -->
+                <div class="faq-item p-6">
+                    <div class="faq-question flex justify-between items-center">
+                        <h3 class="font-bold text-lg">Medical Questions</h3>
+                        <i class="fas fa-chevron-down text-[#614730]"></i>
+                    </div>
+                    <div class="faq-answer mt-4 pl-4">
+                        <div class="mb-6">
+                            <h4 class="font-semibold mb-2">What's the difference between Alzheimer's and dementia?</h4>
+                            <p class="text-gray-600">Dementia is an umbrella term for symptoms affecting memory and thinking. Alzheimer's is the most common type of dementia, accounting for 60-80% of cases, and involves specific brain changes.</p>
+                        </div>
+                        <div class="mb-6">
+                            <h4 class="font-semibold mb-2">Are there treatments to slow progression?</h4>
+                            <p class="text-gray-600">Current medications (cholinesterase inhibitors and memantine) may temporarily improve symptoms. Lifestyle interventions like diet, exercise, and cognitive stimulation may also help slow progression.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Caregiving Questions -->
+                <div class="faq-item p-6 border-t">
+                    <div class="faq-question flex justify-between items-center">
+                        <h3 class="font-bold text-lg">Caregiving Challenges</h3>
+                        <i class="fas fa-chevron-down text-[#614730]"></i>
+                    </div>
+                    <div class="faq-answer mt-4 pl-4">
+                        <div class="mb-6">
+                            <h4 class="font-semibold mb-2">How do I handle repetitive questions?</h4>
+                            <p class="text-gray-600">Stay patient, provide simple answers, and redirect to activities. Write down answers for reference. Avoid saying "You already asked that."</p>
+                        </div>
+                        <div class="mb-6">
+                            <h4 class="font-semibold mb-2">What if my loved one refuses care?</h4>
+                            <p class="text-gray-600">Approach calmly, break tasks into steps, offer choices when possible, and try again later if resistance continues. Consult their doctor about possible medical causes.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Legal/Financial Questions -->
+                <div class="faq-item p-6 border-t">
+                    <div class="faq-question flex justify-between items-center">
+                        <h3 class="font-bold text-lg">Legal & Financial Planning</h3>
+                        <i class="fas fa-chevron-down text-[#614730]"></i>
+                    </div>
+                    <div class="faq-answer mt-4 pl-4">
+                        <div class="mb-6">
+                            <h4 class="font-semibold mb-2">When should we establish power of attorney?</h4>
+                            <p class="text-gray-600">As early as possible after diagnosis while the person can still participate in decisions. Requires legal documentation and may vary by state.</p>
+                        </div>
+                        <div class="mb-6">
+                            <h4 class="font-semibold mb-2">What financial assistance is available?</h4>
+                            <p class="text-gray-600">Medicare covers some costs; Medicaid may help later. Veterans benefits, long-term care insurance, and local Area Agencies on Aging offer resources.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resource Library -->
+        <section class="mb-16" data-aos="fade-up">
+            <h2 class="text-2xl font-bold mb-6 text-[#614730] border-b pb-2">
+                <i class="fas fa-book-open mr-2"></i> Resource Library
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Printable Guides -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-lg mb-4 flex items-center">
+                        <i class="fas fa-file-pdf text-[#614730] mr-2"></i> Printable Guides
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="resource-card flex items-start">
+                            <i class="fas fa-file-alt text-[#8B6B4D] mt-1 mr-2"></i>
+                            <div>
+                                <h4 class="font-semibold">Daily Care Checklist</h4>
+                                <p class="text-sm text-gray-600">Morning to bedtime routine template</p>
+                                <a href="../public/pdf/daily-care-checklist.pdf" class="text-[#614730] hover:text-[#4A3628] text-sm mt-1 inline-block" download>
+                                    <i class="fas fa-download mr-1"></i> Download PDF
+                                </a>
+                            </div>
+                        </li>
+                        <li class="resource-card flex items-start">
+                            <i class="fas fa-file-alt text-[#8B6B4D] mt-1 mr-2"></i>
+                            <div>
+                                <h4 class="font-semibold">Medication Tracker</h4>
+                                <p class="text-sm text-gray-600">Weekly schedule with dosage notes</p>
+                                <a href="../public/pdf/medication-tracker.pdf" class="text-[#614730] hover:text-[#4A3628] text-sm mt-1 inline-block" download>
+                                    <i class="fas fa-download mr-1"></i> Download PDF
+                                </a>
+                            </div>
+                        </li>
+                        <li class="resource-card flex items-start">
+                            <i class="fas fa-file-alt text-[#8B6B4D] mt-1 mr-2"></i>
+                            <div>
+                                <h4 class="font-semibold">Home Safety Assessment</h4>
+                                <p class="text-sm text-gray-600">Room-by-room hazard checklist</p>
+                                <a href="../public/pdf/home-safety-assessment.pdf" class="text-[#614730] hover:text-[#4A3628] text-sm mt-1 inline-block" download>
+                                    <i class="fas fa-download mr-1"></i> Download PDF
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Recommended Reading -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-lg mb-4 flex items-center">
+                        <i class="fas fa-book text-[#614730] mr-2"></i> Recommended Books
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="resource-card flex items-start">
+                            <i class="fas fa-bookmark text-[#8B6B4D] mt-1 mr-2"></i>
+                            <div>
+                                <h4 class="font-semibold">The 36-Hour Day</h4>
+                                <p class="text-sm text-gray-600">Family guide to caring for dementia patients</p>
+                            </div>
+                        </li>
+                        <li class="resource-card flex items-start">
+                            <i class="fas fa-bookmark text-[#8B6B4D] mt-1 mr-2"></i>
+                            <div>
+                                <h4 class="font-semibold">Creating Moments of Joy</h4>
+                                <p class="text-sm text-gray-600">Positive approaches to Alzheimer's care</p>
+                            </div>
+                        </li>
+                        <li class="resource-card flex items-start">
+                            <i class="fas fa-bookmark text-[#8B6B4D] mt-1 mr-2"></i>
+                            <div>
+                                <h4 class="font-semibold">Learning to Speak Alzheimer's</h4>
+                                <p class="text-sm text-gray-600">Communication techniques guide</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Support Contacts -->
+        <section data-aos="fade-up">
+            <h2 class="text-2xl font-bold mb-6 text-[#614730] border-b pb-2">
+                <i class="fas fa-hands-helping mr-2"></i> Support Services
+            </h2>
+            
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Local Resources -->
+                    <div>
+                        <h3 class="font-bold text-lg mb-4">Local Resources</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-semibold">Alzheimer's Association Chapter</h4>
+                                <p class="text-gray-600">Local support groups and education programs</p>
+                                <p class="text-sm mt-1">
+                                    <a href="tel:8002723900" class="text-[#614730] hover:text-[#4A3628]">
+                                        <i class="fas fa-phone mr-2"></i> 800.272.3900
+                                    </a>
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Area Agency on Aging</h4>
+                                <p class="text-gray-600">Government-funded elder care services</p>
+                                <p class="text-sm mt-1">
+                                    <a href="https://www.n4a.org/" target="_blank" class="text-[#614730] hover:text-[#4A3628]">
+                                        <i class="fas fa-globe mr-2"></i> Find your local AAA
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Online Support -->
+                    <div>
+                        <h3 class="font-bold text-lg mb-4">Online Communities</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-semibold">ALZConnected</h4>
+                                <p class="text-gray-600">24/7 moderated discussion forums</p>
+                                <p class="text-sm mt-1">
+                                    <a href="https://www.alzconnected.org/" target="_blank" class="text-[#614730] hover:text-[#4A3628]">
+                                        <i class="fas fa-users mr-2"></i> alzconnected.org
+                                    </a>
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Caregiver Zoom Groups</h4>
+                                <p class="text-gray-600">Weekly virtual support meetings</p>
+                                <div class="flex items-center mt-1">
+                                    <i class="fas fa-video text-[#614730] mr-2"></i>
+                                    <span class="text-sm">Wednesdays 7pm EST</span>
+                                    <span class="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Incoming</span>
+                                </div>
+                                <a href="#" class="text-[#614730] hover:text-[#4A3628] text-sm mt-2 inline-block">
+                                    <i class="fas fa-calendar-plus mr-1"></i> Add to Calendar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Enhanced Footer -->
+    <footer class="bg-[#4A3628] text-white py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">EverCare</h3>
+                    <p class="text-gray-300 mb-4">Supporting those affected by Alzheimer's with comprehensive care and resources.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="text-gray-300 hover:text-white">About Alzheimer's</a></li>
+                        <li><a href="tools.html" class="text-gray-300 hover:text-white">Tools & Resources</a></li>
+                        <li><a href="journals.html" class="text-gray-300 hover:text-white">Journals</a></li>
+                        <li><a href="help.html" class="text-gray-300 hover:text-white">Help Center</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Blog</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Research Updates</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Caregiver Guides</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Memory Tips</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+                    <p class="text-gray-300 mb-2"><i class="fas fa-envelope mr-2"></i> support@evercare.com</p>
+                    <p class="text-gray-300 mb-2"><i class="fas fa-phone mr-2"></i> +91-9604416699</p>
+                    <p class="text-gray-300"><i class="fas fa-map-marker-alt mr-2"></i> PCCOE,pune</p>
+                </div>
+            </div>
+            <div class="border-t border-[#614730] mt-8 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 EverCare. All rights reserved. | <a href="#" class="hover:text-white">Privacy Policy</a> | <a href="#" class="hover:text-white">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Back to top button
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-item').forEach(item => {
+            const question = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
+            const icon = question.querySelector('i');
+
+            question.addEventListener('click', () => {
+                item.classList.toggle('active');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EverCare- Pune Contact & Resources</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <style>
+        :root {
+            --primary: #614730; /* Brown */
+            --primary-dark: #4A3628;
+            --secondary: #F5F5DC; /* Beige */
+            --accent: #8B4513;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--secondary);
+        }
+        .nav-link:hover {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+        .contact-card {
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(97, 71, 48, 0.1);
+        }
+        .map-container {
+            height: 400px;
+            background-color: #eee;
+        }
+        #map {
+            height: 100%;
+            width: 100%;
+            border-radius: 8px;
+        }
+        /* Custom scrollbar for locations list */
+        #locations-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        #locations-list::-webkit-scrollbar-track {
+            background: #F5F5DC;
+            border-radius: 3px;
+        }
+        
+        #locations-list::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+        
+        /* Location card styles */
+        .location-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+        
+        .location-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-2xl font-bold" style="color: var(--primary);">EverCare</a>
+                
+                <!-- Desktop Menu -->
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-8">
+                        <li><a href="about.html" class="nav-link py-2">About</a></li>
+                        <li><a href="tools.html" class="nav-link py-2">Tools</a></li>
+                        <li><a href="journals.html" class="nav-link py-2">Journals</a></li>
+                        <li><a href="personal_plan.html" class="nav-link py-2">Personal Plan</a></li>
+                        <li><a href="help.html" class="nav-link py-2">Help</a></li>
+                        <li><a href="contact.html" class="nav-link py-2 font-bold" style="color: var(--primary);">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-2xl" style="color: var(--primary);" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="hidden md:hidden bg-white py-4 px-4" id="mobileMenu">
+            <ul class="space-y-3">
+                <li><a href="about.html" class="block py-2">About</a></li>
+                <li><a href="tools.html" class="block py-2">Tools</a></li>
+                <li><a href="journals.html" class="block py-2">Journals</a></li>
+                <li><a href="personal_plan.html" class="block py-2">Personal Plan</a></li>
+                <li><a href="help.html" class="block py-2">Help</a></li>
+                <li><a href="contact.html" class="block py-2 font-bold" style="color: var(--primary);">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative h-[500px] text-white">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="images/contact.jpeg" alt="Contact Background" class="w-full h-full object-cover object-center">
+            <div class="absolute inset-0 bg-[#4A3628]/70"></div>
+        </div>
+        
+        <!-- Content -->
+        <div class="container mx-auto px-4 text-center relative z-10 h-full flex flex-col justify-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Pune Contact & Resources</h1>
+            <p class="text-xl max-w-2xl mx-auto">Local doctors, hospitals, and care resources for Pune families</p>
+        </div>
+    </section>
+
+    <!-- Emergency Banner -->
+    <div class="bg-red-600 text-white p-4 text-center">
+        <p><strong>24/7 Helpline:</strong> <a href="help.html" class="text-white underline">Click here for emergency support</a></p>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- Local Specialists -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--primary);">
+                <i class="fas fa-user-md mr-2"></i> Pune Memory Specialists
+            </h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="contact-card bg-white p-6 rounded-lg shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 rounded-full bg-[#F5F5DC] flex items-center justify-center mr-4">
+                            <i class="fas fa-brain text-xl" style="color: var(--primary);"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Dr. Rajesh Patil</h3>
+                            <p class="text-gray-600">Neurologist</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2" style="color: var(--primary);"></i>
+                            <span>Ruby Hall Clinic, Sassoon Road</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-2" style="color: var(--primary);"></i>
+                            <span><a href="tel:02026123456" class="text-[#614730]">020-26123456</a></span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-clock mt-1 mr-2" style="color: var(--primary);"></i>
+                            <span>Mon-Sat: 10am-5pm</span>
+                        </li>
+                    </ul>
+                    <a href="https://www.rubyhall.com/doctors/dr-rajesh-patil" target="_blank" class="inline-block mt-4 font-semibold" style="color: var(--primary);">View profile →</a>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="contact-card bg-white p-6 rounded-lg shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 rounded-full bg-[#F5F5DC] flex items-center justify-center mr-4">
+                            <i class="fas fa-heartbeat text-xl" style="color: var(--primary);"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Dr. Priya Deshmukh</h3>
+                            <p class="text-gray-600">Geriatric Psychiatrist</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2" style="color: var(--primary);"></i>
+                            <span>Jehangir Hospital, MG Road</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-2" style="color: var(--primary);"></i>
+                            <span><a href="tel:02026165432" class="text-[#614730]">020-26165432</a></span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-clock mt-1 mr-2" style="color: var(--primary);"></i>
+                            <span>Tue-Thu: 11am-4pm</span>
+                        </li>
+                    </ul>
+                    <a href="https://www.jehangirhospital.com/doctors/dr-priya-deshmukh" target="_blank" class="inline-block mt-4 font-semibold" style="color: var(--primary);">View profile →</a>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="contact-card bg-white p-6 rounded-lg shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 rounded-full bg-[#F5F5DC] flex items-center justify-center mr-4">
+                            <i class="fas fa-hospital text-xl" style="color: var(--primary);"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Memory Clinic</h3>
+                            <p class="text-gray-600">Deenanath Mangeshkar Hospital</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2" style="color: var(--primary);"></i>
+                            <span>Erandwane, Pune</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-2" style="color: var(--primary);"></i>
+                            <span><a href="tel:02026168000" class="text-[#614730]">020-26168000</a></span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-clock mt-1 mr-2" style="color: var(--primary);"></i>
+                            <span>Mon-Fri: 9am-3pm</span>
+                        </li>
+                    </ul>
+                    <a href="https://www.dmhospital.org/" target="_blank" class="inline-block mt-4 font-semibold" style="color: var(--primary);">View services →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pune Hospitals -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--primary);">
+                <i class="fas fa-hospital mr-2"></i> Pune Memory Care Facilities
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-xl mb-4" style="color: var(--primary);">1. KEM Hospital Memory Wing</h3>
+                    <div class="flex flex-wrap gap-4 mb-4">
+                        <span class="bg-[#F5F5DC] px-3 py-1 rounded-full text-sm">24/7 Emergency</span>
+                        <span class="bg-[#F5F5DC] px-3 py-1 rounded-full text-sm">Specialized Care</span>
+                    </div>
+                    <p class="mb-4"><i class="fas fa-map-marker-alt mr-2" style="color: var(--primary);"></i> Rasta Peth, Pune - 411011</p>
+                    <p class="mb-4"><i class="fas fa-phone-alt mr-2" style="color: var(--primary);"></i> <a href="tel:02026128000" class="text-[#614730]">020-26128000</a></p>
+                    <p class="mb-4"><i class="fas fa-info-circle mr-2" style="color: var(--primary);"></i> Free diagnostic camps every 1st Sunday</p>
+                    <a href="https://www.kemhospitalpune.org/" target="_blank" class="text-[#614730] font-semibold">Visit website →</a>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-xl mb-4" style="color: var(--primary);">2. Sancheti Elder Care Center</h3>
+                    <div class="flex flex-wrap gap-4 mb-4">
+                        <span class="bg-[#F5F5DC] px-3 py-1 rounded-full text-sm">Day Care</span>
+                        <span class="bg-[#F5F5DC] px-3 py-1 rounded-full text-sm">Respite Care</span>
+                    </div>
+                    <p class="mb-4"><i class="fas fa-map-marker-alt mr-2" style="color: var(--primary);"></i> Shivajinagar, Pune - 411005</p>
+                    <p class="mb-4"><i class="fas fa-phone-alt mr-2" style="color: var(--primary);"></i> <a href="tel:02025539999" class="text-[#614730]">020-25539999</a></p>
+                    <p class="mb-4"><i class="fas fa-info-circle mr-2" style="color: var(--primary);"></i> Subsidized rates for low-income families</p>
+                    <a href="https://sanchetihospital.org/" target="_blank" class="text-[#614730] font-semibold">Visit website →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pune Support Groups -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--primary);">
+                <i class="fas fa-hands-helping mr-2"></i> Pune Support Groups
+            </h2>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full bg-white rounded-lg shadow">
+                    <thead>
+                        <tr class="bg-[#614730] text-white">
+                            <th class="p-4 text-left">Group Name</th>
+                            <th class="p-4 text-left">Schedule</th>
+                            <th class="p-4 text-left">Location</th>
+                            <th class="p-4 text-left">Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-4 font-semibold">Pune Caregivers Circle</td>
+                            <td class="p-4">Every 2nd Saturday, 3-5pm</td>
+                            <td class="p-4">Seniors Club, Kothrud</td>
+                            <td class="p-4"><a href="mailto:caregiverspune@gmail.com" class="text-[#614730]">caregiverspune@gmail.com</a></td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-4 font-semibold">Memory Café Pune</td>
+                            <td class="p-4">Weekly Wednesdays, 10am-12pm</td>
+                            <td class="p-4">Jangli Maharaj Road</td>
+                            <td class="p-4"><a href="tel:9822012345" class="text-[#614730]">9822012345</a></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-semibold">Dementia Friends Maharashtra</td>
+                            <td class="p-4">Monthly meetings</td>
+                            <td class="p-4">Various locations</td>
+                            <td class="p-4"><a href="mailto:dementiafriendsmh@gmail.com" class="text-[#614730]">dementiafriendsmh@gmail.com</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Pune Map -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--primary);">
+                <i class="fas fa-map-marked-alt mr-2"></i> Pune Resource Map
+            </h2>
+            
+            <div class="bg-white p-6 rounded-lg shadow">
+                <!-- Search and Filter Controls -->
+                <div class="mb-6">
+                    <div class="flex flex-col md:flex-row gap-4 mb-4">
+                        <div class="flex-1">
+                            <label for="location-search" class="block text-sm font-medium mb-2" style="color: var(--primary);">Search Location</label>
+                            <div class="relative">
+                                <input type="text" id="location-search" 
+                                    class="w-full p-3 pr-10 border rounded-lg focus:ring-2 focus:ring-[#614730] focus:border-[#614730]" 
+                                    placeholder="Enter an address or landmark in Pune">
+                                <button id="search-btn" 
+                                    class="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1 bg-[#614730] text-white rounded hover:bg-[#4A3628]">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" class="filter-option w-4 h-4 text-[#614730]" value="hospitals" checked>
+                            <span class="ml-2">Hospitals</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" class="filter-option w-4 h-4 text-[#614730]" value="clinics" checked>
+                            <span class="ml-2">Clinics</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" class="filter-option w-4 h-4 text-[#614730]" value="support-groups" checked>
+                            <span class="ml-2">Support Groups</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-4 gap-6">
+                    <!-- Map Container - Takes up 3 columns -->
+                    <div class="md:col-span-3">
+                        <div class="map-container" style="height: 600px;" id="map">
+                            <!-- Map will be loaded here via JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Sidebar - Takes up 1 column -->
+                    <div class="space-y-6">
+                        <!-- Legend -->
+                        <div class="bg-[#F5F5DC] p-4 rounded-lg">
+                            <h4 class="font-bold mb-4" style="color: var(--primary);">Map Legend</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-center">
+                                    <span class="w-4 h-4 rounded-full bg-blue-500 mr-3"></span>
+                                    <span>Hospitals</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="w-4 h-4 rounded-full bg-green-500 mr-3"></span>
+                                    <span>Clinics</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="w-4 h-4 rounded-full bg-orange-500 mr-3"></span>
+                                    <span>Support Groups</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Nearby Resources -->
+                        <div class="bg-[#F5F5DC] p-4 rounded-lg">
+                            <h4 class="font-bold mb-4" style="color: var(--primary);">Nearby Resources</h4>
+                            <div id="locations-list" class="space-y-4 max-h-[400px] overflow-y-auto pr-2">
+                                <!-- Results will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Getting There Section -->
+            <div class="mt-6 bg-[#F5F5DC] p-4 rounded-lg">
+                <h4 class="font-bold mb-3" style="color: var(--primary);">Getting There</h4>
+                <p class="mb-3">Most memory care facilities in Pune are located in:</p>
+                <ul class="list-disc pl-5 mb-3 space-y-1">
+                    <li>Central Pune (Shivajinagar, Deccan)</li>
+                    <li>West Pune (Kothrud, Karvenagar)</li>
+                    <li>South Pune (Kondhwa, Bibwewadi)</li>
+                </ul>
+                <p>Free parking available at most locations. Nearest Metro: Shivajinagar Station</p>
+            </div>
+        </section>
+
+        <!-- Contact Form -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--primary);">
+                <i class="fas fa-envelope mr-2"></i> Pune Support Team
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-6" style="color: var(--primary);">Send Us a Message</h3>
+                    
+                    <form id="contactForm" class="space-y-4">
+                        <div>
+                            <label class="block font-medium mb-2">Your Name</label>
+                            <input type="text" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#614730]" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block font-medium mb-2">Email</label>
+                            <input type="email" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#614730]" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block font-medium mb-2">Phone Number</label>
+                            <input type="tel" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#614730]">
+                        </div>
+                        
+                        <div>
+                            <label class="block font-medium mb-2">Message</label>
+                            <textarea class="w-full p-3 border rounded-lg h-32 focus:ring-2 focus:ring-[#614730]" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full py-3 bg-[#614730] text-white rounded-lg hover:bg-[#4A3628] font-bold">
+                            Send Message <i class="fas fa-paper-plane ml-2"></i>
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="bg-white p-8 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-6" style="color: var(--primary);">Other Contact Methods</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-bold mb-2 flex items-center">
+                                <i class="fas fa-phone-alt mr-2" style="color: var(--primary);"></i>
+                                Phone Support
+                            </h4>
+                            <p class="text-lg font-semibold"><a href="tel:9604416699" class="text-[#614730]">9604416699</a></p>
+                            <p class="text-gray-600">Monday-Friday, 9am-6pm</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold mb-2 flex items-center">
+                                <i class="fas fa-envelope mr-2" style="color: var(--primary);"></i>
+                                Email
+                            </h4>
+                            <p class="text-lg font-semibold"><a href="mailto:support@alzcare.org" class="text-[#614730]">support@alzcare.org</a></p>
+                            <p class="text-gray-600">Response within 24 hours</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold mb-2 flex items-center">
+                                <i class="fas fa-map-marker-alt mr-2" style="color: var(--primary);"></i>
+                                Student Office
+                            </h4>
+                            <p>Pimpri Chinchwad College of Engineering</p>
+                            <p>Pune, Maharashtra 411044</p>
+                            <p class="text-gray-600 mt-1">Student walk-ins: Wednesday 2-4pm</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#4A3628] text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">EverCare</h3>
+                    <p class="text-gray-300 mb-4">Providing comprehensive support and resources for Alzheimer's patients and their caregivers.</p>
+                    <div class="flex space-x-4">
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="text-gray-300 hover:text-white">About Alzheimer's</a></li>
+                        <li><a href="tools.html" class="text-gray-300 hover:text-white">Tools & Resources</a></li>
+                        <li><a href="journals.html" class="text-gray-300 hover:text-white">Journals</a></li>
+                        <li><a href="help.html" class="text-gray-300 hover:text-white">Help Center</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Emergency Contacts</h3>
+                    <ul class="space-y-2">
+                        <li><a href="tel:911" class="text-gray-300 hover:text-white">Emergency: 911</a></li>
+                        <li><a href="tel:18002738255" class="text-gray-300 hover:text-white">Alzheimer's Helpline: 1-800-273-8255</a></li>
+                        <li><a href="tel:18006724303" class="text-gray-300 hover:text-white">Caregiver Support: 1-800-672-4303</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+                    <p class="text-gray-300 mb-2"><i class="fas fa-envelope mr-2"></i> support@evercare.com</p>
+                    <p class="text-gray-300 mb-2"><i class="fas fa-phone mr-2"></i> +91-9604416699</p>
+                    <p class="text-gray-300"><i class="fas fa-map-marker-alt mr-2"></i> PCCOE, PUNE</p>
+                </div>
+            </div>
+            <div class="border-t border-[#614730] mt-8 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 EverCare. All rights reserved.@ananyarajanakr</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you! Your message has been sent to our student support team.');
+            this.reset();
+        });
+
+        // Map functionality
+        let map;
+        let markers = [];
+        let userLocation;
+
+        // Sample data for Pune resources
+        const puneResources = {
+            'hospitals': [
+                { name: 'Ruby Hall Clinic', lat: 18.5204, lng: 73.8567, address: 'Sassoon Road, Pune', phone: '+91 20 6645 5555' },
+                { name: 'Jehangir Hospital', lat: 18.5154, lng: 73.8502, address: '32, Sassoon Road, Pune', phone: '+91 20 6681 9999' },
+                { name: 'Sahyadri Hospital', lat: 18.5236, lng: 73.8478, address: 'Kothrud, Pune', phone: '+91 20 2426 6666' }
+            ],
+            'doctors': [
+                { name: 'Dr. Rajesh Shah', lat: 18.5254, lng: 73.8577, address: 'Deccan Gymkhana, Pune', phone: '+91 20 2553 3333', specialty: 'Neurologist' },
+                { name: 'Dr. Priya Deshmukh', lat: 18.5284, lng: 73.8547, address: 'Erandwane, Pune', phone: '+91 20 2544 4444', specialty: 'Geriatric Specialist' }
+            ],
+            'support-groups': [
+                { name: 'Alzheimer\'s Support Group', lat: 18.5204, lng: 73.8567, address: 'Pimpri, Pune', phone: '+91 96044 16699' },
+                { name: 'Memory Care Community', lat: 18.5289, lng: 73.8542, address: 'Nigdi, Pune', phone: '+91 96044 16699' }
+            ]
+        };
+
+        // Initialize the map
+        function initMap() {
+            // Default center (Pune)
+            const defaultCenter = [18.5204, 73.8567];
+            
+            map = L.map('map').setView(defaultCenter, 12);
+            
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            
+            // Try to get user's location
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocation = [position.coords.latitude, position.coords.longitude];
+                        map.setView(userLocation, 12);
+                        searchNearbyLocations();
+                    },
+                    () => {
+                        console.log('Error: The Geolocation service failed.');
+                        searchNearbyLocations();
+                    }
+                );
+            }
+        }
+
+        // Search for nearby locations
+        function searchNearbyLocations() {
+            const location = userLocation || map.getCenter();
+            
+            // Clear existing markers
+            clearMarkers();
+            
+            // Add markers for all resource types
+            Object.keys(puneResources).forEach(type => {
+                puneResources[type].forEach(place => {
+                    createMarker(place, type);
+                });
+            });
+            
+            updateResultsList();
+        }
+
+        // Create marker for a place
+        function createMarker(place, type) {
+            let iconColor;
+            switch(type) {
+                case 'hospitals':
+                    iconColor = 'blue';
+                    break;
+                case 'doctors':
+                    iconColor = 'green';
+                    break;
+                case 'support-groups':
+                    iconColor = 'orange';
+                    break;
+            }
+
+            const marker = L.marker([place.lat, place.lng], {
+                icon: L.divIcon({
+                    className: 'custom-div-icon',
+                    html: `<div style="background-color: ${iconColor}; width: 20px; height: 20px; border-radius: 50%;"></div>`,
+                    iconSize: [20, 20]
+                })
+            }).addTo(map);
+            
+            const content = `
+                <div class="info-window">
+                    <h3>${place.name}</h3>
+                    <p>${place.address}</p>
+                    ${place.phone ? `<p>Phone: ${place.phone}</p>` : ''}
+                    ${place.specialty ? `<p>Specialty: ${place.specialty}</p>` : ''}
+                    <button onclick="getDirections(${place.lat}, ${place.lng})" class="mt-2 px-3 py-1 bg-[#614730] text-white rounded hover:bg-[#4A3628]">
+                        Get Directions
+                    </button>
+                </div>
+            `;
+            
+            marker.bindPopup(content);
+            markers.push({ marker, place });
+        }
+
+        // Clear all markers
+        function clearMarkers() {
+            markers.forEach(({ marker }) => marker.remove());
+            markers = [];
+        }
+
+        // Update results list
+        function updateResultsList() {
+            const list = document.getElementById('locations-list');
+            list.innerHTML = '';
+            
+            markers.forEach(({ marker, place }) => {
+                const card = document.createElement('div');
+                card.className = 'location-card bg-white p-3 rounded shadow-sm hover:shadow cursor-pointer';
+                card.innerHTML = `
+                    <h4 class="font-bold">${place.name}</h4>
+                    <p class="text-sm">${place.address}</p>
+                    ${place.phone ? `<p class="text-sm">Phone: ${place.phone}</p>` : ''}
+                    ${place.specialty ? `<p class="text-sm">Specialty: ${place.specialty}</p>` : ''}
+                    ${userLocation ? `<p class="text-sm font-semibold">${calculateDistance(userLocation, [place.lat, place.lng])} km away</p>` : ''}
+                `;
+                
+                card.addEventListener('click', () => {
+                    map.setView([place.lat, place.lng], 15);
+                    marker.openPopup();
+                });
+                
+                list.appendChild(card);
+            });
+        }
+
+        // Calculate distance between two points
+        function calculateDistance(point1, point2) {
+            if (!point1) return 'Distance unknown';
+            
+            const R = 6371; // Earth's radius in km
+            const dLat = (point2[0] - point1[0]) * Math.PI / 180;
+            const dLon = (point2[1] - point1[1]) * Math.PI / 180;
+            const a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(point1[0] * Math.PI / 180) * Math.cos(point2[0] * Math.PI / 180) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return Math.round(R * c);
+        }
+
+        // Get directions
+        function getDirections(lat, lng) {
+            if (userLocation) {
+                window.open(`https://www.openstreetmap.org/directions?from=${userLocation[0]},${userLocation[1]}&to=${lat},${lng}`);
+            } else {
+                window.open(`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}`);
+            }
+        }
+
+        // Initialize map when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initMap);
+    </script>
+</body>
+</html>

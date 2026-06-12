@@ -1,0 +1,2168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EverCare | Alzheimer's Support</title>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #614730; /* Brown */
+            --primary-dark: #4A3628;
+            --secondary: #F5F5DC; /* Beige */
+            --accent: #8B4513;
+            --text-dark: #333333;
+            --text-medium: #666666;
+            --text-light: #999999;
+            --white: #FFFFFF;
+            --light-grey: #EEEEEE;
+            --medium-grey: #999999;
+            --dark-grey: #4A3628;
+            --light-beige: #F5F5DC;
+            --beige: #E8DCC4;
+            --emergency: #B22222;
+            --jet-black:#333333;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--light-beige);
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: color 0.3s;
+        }
+        
+        a:hover {
+            color: var(--primary-dark);
+        }
+        
+        button, .btn {
+            cursor: pointer;
+            padding: 12px 24px;
+            border-radius: 5px;
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            gap: 20px;
+        }
+        
+        .logo a {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-links a {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .login-btn, .signup-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn {
+            color: var(--primary);
+            background-color: transparent;
+            border: 2px solid var(--primary);
+        }
+        
+        .login-btn:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        .signup-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            border: 2px solid var(--primary);
+        }
+        
+        .signup-btn:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .user-menu {
+            position: relative;
+        }
+        
+        .user-menu-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background-color: var(--light-beige);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .user-menu-button:hover {
+            background-color: var(--beige);
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        
+        .user-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .user-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+        
+        .user-dropdown-item:hover {
+            background-color: var(--light-beige);
+            color: var(--primary);
+        }
+        
+        .user-dropdown-item i {
+            font-size: 18px;
+            color: var(--primary);
+        }
+        
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--light-grey);
+            margin: 8px 0;
+        }
+        
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .hero {
+            position: relative;
+            color: var(--jet-black);
+            padding: 100px 0;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(2px);
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 800;
+            color: #FFFFFF;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.5px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #FFFFFF;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+            font-weight: 500;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .primary-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .primary-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .secondary-btn {
+            background-color: var(--white);
+            color: var(--primary);
+            padding: 12px 24px;
+            border: 2px solid var(--primary);
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .secondary-btn:hover {
+            background-color: var(--primary);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-header h2 {
+            font-size: 36px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+        
+        .section-header p {
+            font-size: 18px;
+            color: var(--text-medium);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--light-beige);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+        
+        .feature-card p {
+            color: var(--text-medium);
+            margin-bottom: 20px;
+        }
+        
+        .feature-link {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* Tools Section */
+        .tools {
+            padding: 80px 0;
+            background-color: var(--beige);
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .tool-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .tool-image {
+            height: 200px;
+            background-position: center;
+            background-size: cover;
+        }
+        
+        .tool-content {
+            padding: 25px;
+        }
+        
+        .tool-content h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+        
+        .tool-content p {
+            color: var(--text-medium);
+            margin-bottom: 20px;
+        }
+        
+        .tool-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .tool-link {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .tool-card .primary-btn {
+            width: 100%;
+            text-align: center;
+            margin-top: 15px;
+            padding: 15px 30px;
+            font-size: 16px;
+        }
+        
+        /* Journal Section */
+        .journals {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+        
+        .journal-slider {
+            position: relative;
+            overflow: hidden;
+            touch-action: pan-x;
+            margin: 0 -15px;
+            padding: 20px 0;
+        }
+        
+        .journal-slides {
+            display: flex;
+            transition: transform 0.5s ease;
+            gap: 30px;
+            padding: 0 15px;
+        }
+        
+        .journal-slide {
+            min-width: calc(33.333% - 20px);
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: grab;
+        }
+        
+        .journal-slide:hover {
+            transform: translateY(-5px);
+        }
+        
+        .journal-image {
+            height: 200px;
+            overflow: hidden;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .journal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .journal-slide:hover .journal-image img {
+            transform: scale(1.05);
+        }
+        
+        .journal-image.image-error {
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .journal-content {
+            padding: 20px;
+        }
+        
+        .journal-content h3 {
+            font-size: 20px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .journal-content p {
+            color: var(--text-medium);
+            margin-bottom: 15px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .feature-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary);
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-link:hover {
+            transform: translateX(5px);
+        }
+        
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .slider-control {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        
+        .slider-control:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 1024px) {
+            .journal-slide {
+                min-width: calc(50% - 20px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .journal-slide {
+                min-width: calc(100% - 20px);
+            }
+            .journal-image {
+                height: 180px;
+            }
+        }
+        
+        /* Emergency Contact Section */
+        .emergency-section {
+            padding: 60px 0;
+            background-color: var(--beige);
+        }
+        
+        .emergency-container {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .emergency-info {
+            flex: 1;
+        }
+        
+        .emergency-info h2 {
+            font-size: 32px;
+            color: var(--emergency);
+            margin-bottom: 20px;
+        }
+        
+        .emergency-info p {
+            margin-bottom: 25px;
+            font-size: 17px;
+        }
+        
+        .emergency-contacts {
+            flex: 1;
+        }
+        
+        .contact-card {
+            background-color: var(--light-beige);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .contact-icon {
+            color: var(--emergency);
+            font-size: 24px;
+        }
+        
+        .contact-details h4 {
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        
+        .emergency-btn {
+            background-color: var(--emergency);
+            color: var(--white);
+            font-size: 18px;
+            padding: 15px 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 8px;
+        }
+        
+        .emergency-btn:hover {
+            background-color: #8B0000;
+        }
+        
+        /* Location Section */
+        .location-section {
+            padding: 80px 0;
+            background-color: var(--light-beige);
+        }
+        
+        .map-search-container {
+            margin-bottom: 20px;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--light-grey);
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .search-box button {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .search-box button:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .filter-options {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-options label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+        
+        .map-container {
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background-color: var(--light-grey);
+        }
+        
+        .results-container {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .results-container h3 {
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+        
+        #locations-list {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .location-card {
+            background-color: var(--light-beige);
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .location-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .location-card h4 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .location-card p {
+            color: var(--text-medium);
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .location-card .distance {
+            color: var(--text-light);
+            font-size: 12px;
+        }
+        
+        .leaflet-popup-content {
+            margin: 10px;
+        }
+        
+        .leaflet-popup-content h3 {
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+        
+        .leaflet-popup-content p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        .leaflet-popup-content button {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .leaflet-popup-content button:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        @media (max-width: 768px) {
+            .map-container {
+                height: 300px;
+            }
+            
+            .filter-options {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        /* Contact Form Section */
+        .contact-section {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+        
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        .contact-info {
+            padding: 30px;
+            background-color: var(--light-beige);
+            border-radius: 10px;
+        }
+        
+        .contact-info h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .contact-details {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .contact-details li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .contact-icon {
+            min-width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 18px;
+        }
+        
+        .contact-text {
+            color: var(--text-medium);
+        }
+        
+        .contact-text strong {
+            display: block;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+        
+        .contact-form {
+            background-color: var(--light-beige);
+            padding: 30px;
+            border-radius: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-grey);
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .submit-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        /* Newsletter Section */
+        .newsletter-section {
+            padding: 60px 0;
+            background-color: var(--beige);
+            text-align: center;
+        }
+        
+        .newsletter-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-container h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+        
+        .newsletter-container p {
+            color: var(--text-medium);
+            margin-bottom: 25px;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--light-grey);
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .subscribe-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: var(--dark-grey);
+            color: var(--white);
+            padding: 3rem 0;
+            position: relative;
+            width: 100%;
+            bottom: 0;
+        }
+
+        footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        footer h3 {
+            color: var(--white);
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        footer p {
+            color: var(--light-grey);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        footer ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        footer a {
+            color: var(--light-grey);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        footer a:hover {
+            color: var(--white);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .footer-col {
+            padding-right: 1rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p {
+            color: var(--light-grey);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+        
+        /* Newsletter form styles */
+        footer input[type="email"] {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.375rem 0 0 0.375rem;
+            width: 100%;
+        }
+
+        footer button[type="submit"] {
+            padding: 0.5rem 1rem;
+            background-color: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: 0 0.375rem 0.375rem 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        footer button[type="submit"]:hover {
+            background-color: var(--primary);
+        }
+        
+        /* Personal Plan Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--light-grey);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            font-size: 24px;
+            color: var(--text-dark);
+        }
+        
+        .close-modal {
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-medium);
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .plan-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .plan-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .plan-form input, .plan-form select, .plan-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--light-grey);
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .plan-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .plan-form button {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .plan-form button:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 0;
+            background-color: var(--light-beige);
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background-color: var(--white);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--text-dark);
+            transition: background-color 0.3s;
+        }
+        
+        .faq-question:hover {
+            background-color: var(--light-beige);
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .faq-answer.active {
+            padding: 0 20px 20px;
+            max-height: 500px;
+        }
+        
+        .faq-toggle {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .emergency-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-actions {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--white);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .feature-card, .tool-card, .journal-slide {
+                min-width: 250px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-actions {
+                display: none;
+            }
+            
+            .hero {
+                padding: 70px 0;
+            }
+            
+            .hero h1 {
+                font-size: 30px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .section-header h2 {
+                font-size: 28px;
+            }
+            
+            .chat-popup {
+                width: 300px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="#"><span style="color: var(--primary);">EverCare</a>
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="about.html">About Alzheimer's</a></li>
+                    <li><a href="tools.html">Tools & Resources</a></li>
+                    <li><a href="journals.html">Research & Journals</a></li>
+                    <li><a href="help.html">Help Center</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="logged-out-actions" id="loggedOutActions" style="display: flex; gap: 15px; align-items: center;">
+                    <a href="login_2.html" class="login-btn">Login</a>
+                    <a href="register.html" class="signup-btn">Sign Up</a>
+                </div>
+                <div class="logged-in-actions" id="loggedInActions" style="display: none;">
+                    <div class="user-menu">
+                        <button class="user-menu-button" onclick="toggleUserMenu()">
+                            <div class="user-avatar" id="userAvatar">U</div>
+                            <span class="user-name" id="userName">User</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="user-dropdown" id="userDropdown">
+                            <a href="dashboard.html" class="user-dropdown-item">
+                                <i class="fas fa-columns"></i>
+                                Dashboard
+                            </a>
+                            <a href="personal_plan.html" class="user-dropdown-item">
+                                <i class="fas fa-clipboard-list"></i>
+                                Personal Plan
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="user-dropdown-item" onclick="handleLogout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mobile-menu">☰</div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="/videos/index.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="container hero-content">
+            <h1>Supporting Alzheimer's Patients & Caregivers</h1>
+            <p>We provide resources, tools, and a community to help navigate the Alzheimer's journey together.</p>
+            <div class="hero-buttons">
+                <button class="primary-btn" id="plan-btn" onclick="window.location.href='personal_plan.html'">Create Personal Plan</button>
+                <a href="help.html" class="secondary-btn">Find Local Support</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>How We Help</h2>
+                <p>Comprehensive support for patients and caregivers affected by Alzheimer's disease.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Personalized Care Plans</h3>
+                    <p>Create customized care plans tailored to specific needs and stages of Alzheimer's progression.</p>
+                    <a href="personal_plan.html" class="feature-link">Learn More →</a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Educational Resources</h3>
+                    <p>Access to the latest research, articles, and educational materials about Alzheimer's disease.</p>
+                    <a href="emergency_resources.html" class="feature-link">Learn More →</a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Community Support</h3>
+                    <p>Connect with others facing similar challenges through support groups and community forums.</p>
+                    <a href="caregiver-community.html" class="feature-link">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Tools Section -->
+    <section class="tools" id="tools">
+        <div class="container">
+            <div class="section-header">
+                <h2>Memory Aid Tools</h2>
+                <p>Practical tools designed to support cognitive function and daily living.</p>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-image" style="background-image:url(/images/plan.jpg); background-size: cover; background-position: center;"></div>
+                    <div class="tool-content">
+                        <h3>Memory Calendar</h3>
+                        <p>Interactive calendar with reminders for medications, appointments, and daily routines.</p>
+                        <a href="daily-planner.html" class="primary-btn auth-required" onclick="checkToolAccess(event, 'daily-planner.html')">Use Tool</a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-image" style="background-image: url(/images/voice.webp); background-size: cover; background-position: center;"></div>
+                    <div class="tool-content">
+                        <h3>Voice Recording</h3>
+                        <p>Record and save important memories, thoughts, and messages in your own voice.</p>
+                        <a href="voice_rec.html" class="primary-btn auth-required" onclick="checkToolAccess(event, 'voice_rec.html')">Use Tool</a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-image" style="background-image: url(/images/brain.jpg); background-size: cover; background-position: center;"></div>
+                    <div class="tool-content">
+                        <h3>Cognitive Exercises</h3>
+                        <p>Brain training activities designed to help maintain cognitive function and memory.</p>
+                        <a href="cognitive-exercises.html" class="primary-btn auth-required" onclick="checkToolAccess(event, 'cognitive-exercises.html')">Use Tool</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="journals" id="journals">
+        <div class="container">
+            <div class="section-header">
+                <h2>Latest Journals & Research</h2>
+                <p>Stay informed with the latest developments in Alzheimer's research and treatment from leading scientific journals.</p>
+            </div>
+            
+            <div class="journal-slider" id="journalSlider">
+                <div class="journal-slides" id="journalSlides">
+                    <!-- Journal 1 -->
+                    <div class="journal-slide">
+                        <div class="journal-image">
+                            <img src="/images/j1.jpg" alt="Alzheimer's & Dementia Journal Cover">
+                        </div>
+                        <div class="journal-content">
+                            <h3>Alzheimer's & Dementia Journal</h3>
+                            <p>The leading peer-reviewed journal covering the entire spectrum of dementia research from basic science to clinical trials.</p>
+                            <a href="journals.html#alzheimers-dementia" class="feature-link">Access Journal →</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Journal 2 -->
+                    <div class="journal-slide">
+                        <div class="journal-image">
+                            <img src="/images/j.jpg" alt="Alzheimer's Research & Therapy Cover">
+                        </div>
+                        <div class="journal-content">
+                            <h3>Alzheimer's Research & Therapy</h3>
+                            <p>Major forum for translational research with focus on clinical trials, drug discovery and epidemiologic studies.</p>
+                            <a href="journals.html#research-therapy" class="feature-link">Read Articles →</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Journal 3 -->
+                    <div class="journal-slide">
+                        <div class="journal-image">
+                            <img src="/images/j3.jpg" alt="Journal of Prevention of Alzheimer's Disease Cover">
+                        </div>
+                        <div class="journal-content">
+                            <h3>Journal of Prevention of Alzheimer's Disease</h3>
+                            <p>Focuses on preventive strategies and early interventions with Impact Factor of 8.5.</p>
+                            <a href="journals.html#prevention" class="feature-link">View Journal →</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Journal 4 -->
+                    <div class="journal-slide">
+                        <div class="journal-image">
+                            <img src="/images/j4.jpg" alt="Nature Alzheimer's Research Cover">
+                        </div>
+                        <div class="journal-content">
+                            <h3>Nature Alzheimer's Research</h3>
+                            <p>Cutting-edge research from Nature Portfolio including studies on PM2.5 pollution and dementia risk.</p>
+                            <a href="journals.html#nature" class="feature-link">Explore Research →</a>
+                        </div>
+                    </div>
+    
+                    <!-- Journal 5 -->
+                    <div class="journal-slide">
+                        <div class="journal-image">
+                            <img src="/images/j5.jpg" alt="AI in Dementia Research">
+                        </div>
+                        <div class="journal-content">
+                            <h3>AI in Dementia Research</h3>
+                            <p>Thematic series on artificial intelligence applications in Alzheimer's diagnosis and treatment.</p>
+                            <a href="journals.html#ai-research" class="feature-link">Read Series →</a>
+                        </div>
+                    </div>
+    
+                    <!-- Journal 6 -->
+                    <div class="journal-slide">
+                        <div class="journal-image">
+                            <img src="/images/j6.jpg" alt="Blood Test Breakthroughs">
+                        </div>
+                        <div class="journal-content">
+                            <h3>Blood Test Breakthroughs</h3>
+                            <p>Latest research on plasma phospho-tau217 for Alzheimer's diagnosis in primary care.</p>
+                            <a href="journals.html#blood-test" class="feature-link">View Study →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slider-controls">
+                    <div class="slider-control prev-slide">←</div>
+                    <div class="slider-control next-slide">→</div>
+                </div>
+            </div>
+        </div>
+    </section>   
+    <section class="emergency-section" id="help">
+        <div class="container">
+            <div class="emergency-container">
+                <div class="emergency-info">
+                    <h2>Emergency Assistance</h2>
+                    <p>Access immediate help and support for Alzheimer's-related emergencies.</p>
+                    <a href="tel:800-123-4567" class="emergency-btn" aria-label="Call emergency helpline at 800-123-4567" onclick="copyToClipboard('800-123-4567')">
+                        <span>Call Helpline</span> 📞
+                    </a>
+                </div>
+                
+                <div class="emergency-contacts">
+                    <div class="contact-card">
+                        <div class="contact-icon">🏥</div>
+                        <div class="contact-details">
+                            <h4>Medical Emergency</h4>
+                            <p><a href="tel:112" onclick="copyToClipboard('112')">Call 112</a> or your local emergency number</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">🔔</div>
+                        <div class="contact-details">
+                            <h4>Crisis Support</h4>
+                            <p><a href="tel:9604416699" onclick="copyToClipboard('9604416699')">24/7 Hotline: 9604416699</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">👨‍⚕️</div>
+                        <div class="contact-details">
+                            <h4>Find Doctors</h4>
+                            <p><a href="contact.html" class="map-btn">Locate Specialists Near You</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Location Section -->
+    <section class="location-section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Find Local Support</h2>
+                <p>Locate support groups, memory care facilities, and specialized services in your area.</p>
+            </div>
+            
+            <div class="map-search-container">
+                <div class="search-box">
+                    <input type="text" id="location-search" placeholder="Enter your location">
+                    <button id="search-btn">Search</button>
+                </div>
+                <div class="filter-options">
+                    <label><input type="checkbox" value="support-groups" checked> Support Groups</label>
+                    <label><input type="checkbox" value="memory-care" checked> Memory Care Facilities</label>
+                    <label><input type="checkbox" value="specialists" checked> Specialists</label>
+                </div>
+            </div>
+            
+            <div class="map-container" id="map">
+                <!-- Map will be loaded here via JavaScript -->
+            </div>
+            
+            <div class="results-container">
+                <h3>Nearby Locations</h3>
+                <div id="locations-list">
+                    <!-- Results will be populated here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Contact Us</h2>
+                <p>Reach out to us for support, questions, or more information about our services.</p>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <ul class="contact-details">
+                        <li>
+                            <div class="contact-icon">📱</div>
+                            <div class="contact-text">
+                                <strong>Phone</strong>
+                                +91 9604416699
+                            </div>
+                        </li>
+                        <li>
+                            <div class="contact-icon">✉️</div>
+                            <div class="contact-text">
+                                <strong>Email</strong>
+                                support@memorymatters.org
+                            </div>
+                        </li>
+                        <li>
+                            <div class="contact-icon">🏢</div>
+                            <div class="contact-text">
+                                <strong>Address</strong>
+                                Pimpri Chinchwad College of Engineering<br>
+                                Nigdi-Pune, 411044
+                            </div>
+                        </li>
+                        <li>
+                            <div class="contact-icon">⏰</div>
+                            <div class="contact-text">
+                                <strong>Hours</strong>
+                                Monday - Friday: 9am - 5pm<br>
+                                Support Line: 24/7
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Send Us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" placeholder="What is this regarding?">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Your Message or Suggestion</label>
+                            <textarea id="message" name="message" placeholder="Type your message or suggestion here..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#4A3628] text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>EverCare</h3>
+                    <p>A student based initiative for patients and their supporters who are suffering from Alzheimer's.</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="tools.html">Tools</a></li>
+                        <li><a href="journals.html">Journals</a></li>
+                        <li><a href="personal_plan.html">Personal Plan</a></li>
+                        <li><a href="help.html">Help</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Emergency Contacts</h3>
+                    <ul>
+                        <li>24/7 Helpline: 1800-123-4567</li>
+                        <li>Ambulance: 108</li>
+                        <li>Emergency Room: 102</li>
+                        <li>Police: 100</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Newsletter</h3>
+                    <p>Stay updated with our latest resources and support information.</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Your email" class="newsletter-input">
+                        <button type="submit" class="subscribe-btn">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 EverCare - @ananyarajanakr. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // Authentication state management
+    let isLoggedIn = false;
+
+    // Check if user is logged in
+    function checkAuthState() {
+        const token = localStorage.getItem('token');
+        isLoggedIn = !!token;
+        updateUIForAuthState();
+        return isLoggedIn;
+    }
+
+    // Update UI based on auth state
+    function updateUIForAuthState() {
+        const loggedOutActions = document.getElementById('loggedOutActions');
+        const loggedInActions = document.getElementById('loggedInActions');
+        
+        if (isLoggedIn) {
+            loggedOutActions.style.display = 'none';
+            loggedInActions.style.display = 'flex';
+            // Update user name
+            const userStr = localStorage.getItem('user');
+            const user = userStr ? JSON.parse(userStr) : { full_name: 'User' };
+            document.getElementById('userName').textContent = user.full_name;
+        } else {
+            loggedOutActions.style.display = 'flex';
+            loggedInActions.style.display = 'none';
+        }
+    }
+
+    // Handle auth-required links
+    function checkToolAccess(event, toolPage) {
+        event.preventDefault();
+        const isAuthenticated = checkAuthState();
+        
+        if (!isAuthenticated) {
+            alert('Please log in to access this tool.');
+            window.location.href = 'login_2.html';
+        } else {
+            window.location.href = toolPage;
+        }
+    }
+
+    // Initialize auth state check when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        checkAuthState();
+    });
+
+    // Journal Slider Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const slider = document.getElementById('journalSlider');
+        const slides = document.getElementById('journalSlides');
+        const prevBtn = document.querySelector('.prev-slide');
+        const nextBtn = document.querySelector('.next-slide');
+
+        let currentIndex = 0;
+        let startX;
+        let currentX;
+        let isDragging = false;
+        let slideWidth;
+        const totalSlides = document.querySelectorAll('.journal-slide').length;
+
+        function updateSlideWidth() {
+            const slide = document.querySelector('.journal-slide');
+            slideWidth = slide.offsetWidth + 30; // Including gap
+        }
+
+        function updateSliderPosition() {
+            slides.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+        }
+
+        function nextSlide() {
+            const maxIndex = totalSlides - Math.floor(slider.offsetWidth / slideWidth);
+            currentIndex = Math.min(currentIndex + 1, maxIndex);
+            updateSliderPosition();
+        }
+
+        function prevSlide() {
+            currentIndex = Math.max(currentIndex - 1, 0);
+            updateSliderPosition();
+        }
+
+        // Touch and Mouse Events
+        function handleDragStart(e) {
+            isDragging = true;
+            startX = e.type === 'mousedown' ? e.pageX : e.touches[0].pageX;
+            currentX = startX;
+            slides.style.transition = 'none';
+            slider.style.cursor = 'grabbing';
+        }
+
+        function handleDragMove(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.type === 'mousemove' ? e.pageX : e.touches[0].pageX;
+            const diff = x - currentX;
+            currentX = x;
+            const currentTranslate = -currentIndex * slideWidth;
+            slides.style.transform = `translateX(${currentTranslate + diff}px)`;
+        }
+
+        function handleDragEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            slides.style.transition = 'transform 0.5s ease';
+            slider.style.cursor = 'grab';
+
+            const diff = currentX - startX;
+            if (Math.abs(diff) > 100) {
+                if (diff > 0) {
+                    prevSlide();
+                } else {
+                    nextSlide();
+                }
+            } else {
+                updateSliderPosition();
+            }
+        }
+
+        // Event Listeners
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        // Touch events
+        slider.addEventListener('touchstart', handleDragStart);
+        slider.addEventListener('touchmove', handleDragMove);
+        slider.addEventListener('touchend', handleDragEnd);
+
+        // Mouse events
+        slider.addEventListener('mousedown', handleDragStart);
+        slider.addEventListener('mousemove', handleDragMove);
+        slider.addEventListener('mouseup', handleDragEnd);
+        slider.addEventListener('mouseleave', handleDragEnd);
+
+        // Initialize
+        updateSlideWidth();
+        window.addEventListener('resize', () => {
+            updateSlideWidth();
+            updateSliderPosition();
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const journalImages = document.querySelectorAll('.journal-image');
+        
+        journalImages.forEach(image => {
+            const url = image.style.backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/)?.[1];
+            if (url) {
+                const img = new Image();
+                img.onerror = () => {
+                    image.classList.add('image-error');
+                    image.innerHTML = '<div>Image unavailable</div>';
+                };
+                img.src = url;
+            }
+        });
+    });
+
+    // Map functionality
+    let map;
+    let markers = [];
+    let userLocation;
+
+    // Sample data for demonstration (replace with your actual data)
+    const sampleLocations = {
+        'support-groups': [
+            { name: 'Alzheimer\'s Support Group', lat: 18.6271, lng: 73.8007, address: 'Pimpri, Pune', rating: 4.5 },
+            { name: 'Memory Care Community', lat: 18.6289, lng: 73.8042, address: 'Nigdi, Pune', rating: 4.8 },
+        ],
+        'memory-care': [
+            { name: 'Senior Living Facility', lat: 18.6312, lng: 73.8076, address: 'Akurdi, Pune', rating: 4.7 },
+            { name: 'Memory Care Center', lat: 18.6345, lng: 73.8123, address: 'Chinchwad, Pune', rating: 4.6 },
+        ],
+        'specialists': [
+            { name: 'Dr. Smith Neurology Clinic', lat: 18.6367, lng: 73.8156, address: 'Pimpri-Chinchwad, Pune', rating: 4.9 },
+            { name: 'Memory Care Specialists', lat: 18.6390, lng: 73.8189, address: 'Pune', rating: 4.7 },
+        ]
+    };
+
+    // Initialize the map
+    function initMap() {
+        // Default center (India)
+        const defaultCenter = [20.5937, 78.9629];
+        
+        map = L.map('map').setView(defaultCenter, 5);
+        
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        
+        // Try to get user's location
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    userLocation = [position.coords.latitude, position.coords.longitude];
+                    map.setView(userLocation, 12);
+                    searchNearbyLocations();
+                },
+                () => {
+                    console.log('Error: The Geolocation service failed.');
+                    searchNearbyLocations();
+                }
+            );
+        }
+    }
+
+    // Search for nearby locations
+    function searchNearbyLocations() {
+        const location = userLocation || map.getCenter();
+        const selectedTypes = getSelectedTypes();
+        
+        // Clear existing markers
+        clearMarkers();
+        
+        // Add markers for selected types
+        selectedTypes.forEach(type => {
+            if (sampleLocations[type]) {
+                sampleLocations[type].forEach(place => {
+                    createMarker(place, type);
+                });
+            }
+        });
+        
+        updateResultsList();
+    }
+
+    // Create marker for a place
+    function createMarker(place, type) {
+        const marker = L.marker([place.lat, place.lng]).addTo(map);
+        
+        const content = `
+            <div class="info-window">
+                <h3>${place.name}</h3>
+                <p>${place.address}</p>
+                ${place.rating ? `<p>Rating: ${place.rating} ⭐</p>` : ''}
+                <button onclick="getDirections(${place.lat}, ${place.lng})">
+                    Get Directions
+                </button>
+            </div>
+        `;
+        
+        marker.bindPopup(content);
+        markers.push({ marker, place });
+    }
+
+    // Clear all markers
+    function clearMarkers() {
+        markers.forEach(({ marker }) => marker.remove());
+        markers = [];
+    }
+
+    // Get selected filter types
+    function getSelectedTypes() {
+        const checkboxes = document.querySelectorAll('.filter-options input:checked');
+        return Array.from(checkboxes).map(cb => cb.value);
+    }
+
+    // Update results list
+    function updateResultsList() {
+        const list = document.getElementById('locations-list');
+        list.innerHTML = '';
+        
+        markers.forEach(({ marker, place }) => {
+            const card = document.createElement('div');
+            card.className = 'location-card';
+            card.innerHTML = `
+                <h4>${place.name}</h4>
+                <p>${place.address}</p>
+                ${place.rating ? `<p>Rating: ${place.rating} ⭐</p>` : ''}
+                <p class="distance">${calculateDistance(userLocation, [place.lat, place.lng])} km away</p>
+            `;
+            
+            card.addEventListener('click', () => {
+                map.setView([place.lat, place.lng], 15);
+                marker.openPopup();
+            });
+            
+            list.appendChild(card);
+        });
+    }
+
+    // Calculate distance between two points
+    function calculateDistance(point1, point2) {
+        if (!point1) return 'Distance unknown';
+        
+        const R = 6371; // Earth's radius in km
+        const dLat = (point2[0] - point1[0]) * Math.PI / 180;
+        const dLon = (point2[1] - point1[1]) * Math.PI / 180;
+        const a = 
+            Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(point1[0] * Math.PI / 180) * Math.cos(point2[0] * Math.PI / 180) * 
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return Math.round(R * c);
+    }
+
+    // Get directions
+    function getDirections(lat, lng) {
+        if (userLocation) {
+            window.open(`https://www.openstreetmap.org/directions?from=${userLocation[0]},${userLocation[1]}&to=${lat},${lng}`);
+        } else {
+            window.open(`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}`);
+        }
+    }
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize map
+        initMap();
+        
+        // Search functionality
+        const geocoder = L.Control.Geocoder.nominatim();
+        
+        document.getElementById('search-btn').addEventListener('click', () => {
+            const address = document.getElementById('location-search').value;
+            
+            geocoder.geocode(address, (results) => {
+                if (results.length > 0) {
+                    const location = results[0].center;
+                    userLocation = [location.lat, location.lng];
+                    map.setView(userLocation, 12);
+                    searchNearbyLocations();
+                } else {
+                    alert('Location not found. Please try again.');
+                }
+            });
+        });
+        
+        // Filter changes
+        document.querySelectorAll('.filter-options input').forEach(input => {
+            input.addEventListener('change', searchNearbyLocations);
+        });
+    });
+
+    // Logout function
+    function handleLogout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        isLoggedIn = false;
+        updateUIForAuthState();
+        window.location.href = 'index.html';
+    }
+
+    // Check login state when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        checkLoginState();
+    });
+
+    function checkLoginState() {
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user'));
+        const loggedOutActions = document.getElementById('loggedOutActions');
+        const loggedInActions = document.getElementById('loggedInActions');
+        const userName = document.getElementById('userName');
+
+        if (token && user) {
+            // User is logged in
+            loggedOutActions.style.display = 'none';
+            loggedInActions.style.display = 'flex';
+            userName.textContent = `${user.first_name} ${user.last_name}`;
+        } else {
+            // User is logged out
+            loggedOutActions.style.display = 'flex';
+            loggedInActions.style.display = 'none';
+        }
+    }
+
+    function toggleUserMenu() {
+        const dropdown = document.getElementById('userDropdown');
+        dropdown.classList.toggle('active');
+    }
+
+    function updateUserAvatar(user) {
+        const avatar = document.getElementById('userAvatar');
+        if (user && user.first_name) {
+            avatar.textContent = user.first_name.charAt(0).toUpperCase();
+        }
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const userMenu = document.querySelector('.user-menu');
+        const dropdown = document.getElementById('userDropdown');
+        if (!userMenu.contains(event.target)) {
+            dropdown.classList.remove('active');
+        }
+    });
+
+    // Contact Form Submission
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        console.log('Form submission started');
+        
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            subject: document.getElementById('subject').value,
+            message: document.getElementById('message').value
+        };
+        
+        console.log('Form data:', formData);
+        
+        try {
+            const response = await fetch('http://localhost:3000/api/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            console.log('Response status:', response.status);
+            
+            const data = await response.json();
+            console.log('Response data:', data);
+            
+            if (response.ok) {
+                alert('Message sent successfully!');
+                document.getElementById('contactForm').reset();
+            } else {
+                alert(data.error || 'Failed to send message. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error details:', error);
+            alert('An error occurred. Please try again later.');
+        }
+    });
+    </script>
+
+    <!-- Add Leaflet CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+</body>
+</html>
+
+

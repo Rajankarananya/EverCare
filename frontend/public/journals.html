@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alzheimer's Research Journal | EverCare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #614730;
+            --primary-dark: #4A3628;
+            --primary-light: #8B6B4D;
+            --secondary: #F5F5DC;
+            --accent: #8B4513;
+            --text: #333333;
+            --white: #FFFFFF;
+            --gray-light: #F5F5F5;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            color: var(--text);
+            background-color: var(--white);
+            scroll-behavior: smooth;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .research-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .research-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-button.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 0;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        /* Navigation */
+        nav ul li a {
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 99;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+        }
+
+        #heroSection {
+            background-image: url('/images/about header pic.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        #heroSection::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(97, 71, 48, 0.7);
+            z-index: 1;
+        }
+
+        #heroSection .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .journals-slider {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .journals-container {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .journal-slide {
+            min-width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .slider-nav {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .slider-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .slider-dot.active {
+            background-color: var(--primary);
+        }
+
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .slider-arrow:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .slider-arrow.prev {
+            left: 1rem;
+        }
+
+        .slider-arrow.next {
+            right: 1rem;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .journal-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .journal-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="logo">
+                    <a href="index.html" class="text-2xl font-bold"><span class="gradient-text">EverCare</span></a>
+                </div>
+                
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-6">
+                        <li><a href="about.html" class="hover:text-[#614730]">About Alzheimer's</a></li>
+                        <li><a href="tools.html" class="hover:text-[#614730]">Tools & Resources</a></li>
+                        <li><a href="journals.html" class="hover:text-[#614730] font-semibold text-[#614730]">Journals</a></li>
+                        <li><a href="help.html" class="hover:text-[#614730]">Help Center</a></li>
+                        <li><a href="contact.html" class="hover:text-[#614730]">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-actions flex items-center gap-4">
+                    <button class="search-btn p-2 rounded-full hover:bg-gray-100">
+                        <i class="fas fa-search text-[#614730]"></i>
+                    </button>
+                    <div class="logged-out-actions flex gap-3">
+                        <a href="register.html" class="signup-btn px-4 py-2 rounded-lg border border-[#614730] text-[#614730] hover:bg-[#614730] hover:text-white transition">Sign Up</a>
+                    </div>
+                    <div class="logged-in-actions hidden gap-3 items-center">
+                        <div class="user-menu relative">
+                            <button class="flex items-center gap-2 text-[#614730] hover:text-[#4A3628]">
+                                <div class="w-8 h-8 rounded-full bg-[#F5F5DC] flex items-center justify-center">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <span class="user-name hidden md:inline">User</span>
+                                <i class="fas fa-chevron-down text-sm"></i>
+                            </button>
+                            <div class="user-dropdown absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg hidden py-1">
+                                <a href="dashboard.html" class="block px-4 py-2 hover:bg-[#F5F5DC] transition"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                                <a href="profile.html" class="block px-4 py-2 hover:bg-[#F5F5DC] transition"><i class="fas fa-user mr-2"></i>Profile</a>
+                                <button onclick="auth.logout()" class="block w-full text-left px-4 py-2 hover:bg-[#F5F5DC] transition"><i class="fas fa-sign-out-alt mr-2"></i>Logout</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="md:hidden p-2 rounded-full hover:bg-gray-100" id="mobileMenuBtn">
+                        <i class="fas fa-bars text-[#614730]"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu hidden fixed inset-0 bg-white z-40 pt-16 px-4" id="mobileMenu">
+        <ul class="space-y-4">
+            <li><a href="about.html" class="block py-2 text-lg hover:text-[#614730]">About Alzheimer's</a></li>
+            <li><a href="tools.html" class="block py-2 text-lg hover:text-[#614730]">Tools & Resources</a></li>
+            <li><a href="journals.html" class="block py-2 text-lg font-semibold text-[#614730]">Journals</a></li>
+            <li><a href="help.html" class="block py-2 text-lg hover:text-[#614730]">Help Center</a></li>
+            <li><a href="contact.html" class="block py-2 text-lg hover:text-[#614730]">Contact</a></li>
+            <li class="pt-4 border-t">
+                <div class="logged-out-actions flex gap-3">
+                    <a href="login.html" class="block w-full text-center py-2 rounded-lg border border-[#614730] text-[#614730] hover:bg-[#614730] hover:text-white transition">Login</a>
+                    <a href="register.html" class="block w-full text-center py-2 rounded-lg bg-[#614730] text-white hover:bg-[#4A3628] transition">Sign Up</a>
+                </div>
+                <div class="logged-in-actions hidden gap-3">
+                    <a href="dashboard.html" class="block py-2 text-lg"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                    <a href="profile.html" class="block py-2 text-lg"><i class="fas fa-user mr-2"></i>Profile</a>
+                    <button onclick="auth.logout()" class="block py-2 text-lg text-left w-full"><i class="fas fa-sign-out-alt mr-2"></i>Logout</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative py-20 bg-cover bg-center" id="heroSection">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-[#614730]/70"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-3xl mx-auto text-center text-white">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6">Alzheimer's Research Journal</h1>
+                <p class="text-xl text-white/90 mb-8">
+                    Curated knowledge from Nobel laureates, ongoing research, and personalized insights about Alzheimer's disease
+                </p>
+                <div class="flex flex-col items-center gap-6">
+                    <a href="#journals" class="px-8 py-4 bg-white text-[#614730] rounded-lg hover:bg-gray-100 transition font-bold">
+                        Explore Research
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Journals Tabs Section -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-8" data-aos="fade-up">
+            <h2 class="text-2xl font-bold mb-6 text-[#614730]">
+                <i class="fas fa-book-open mr-2"></i> Research Journals
+            </h2>
+
+            <!-- Tab Navigation -->
+            <div class="flex flex-wrap gap-4 mb-6 border-b border-gray-200">
+                <button class="tab-button px-4 py-2 text-gray-600 hover:text-[#614730]" data-tab="latest">
+                    Latest Research
+                </button>
+                <button class="tab-button px-4 py-2 text-gray-600 hover:text-[#614730]" data-tab="clinical">
+                    Clinical Trials
+                </button>
+                <button class="tab-button px-4 py-2 text-gray-600 hover:text-[#614730]" data-tab="prevention">
+                    Prevention Studies
+                </button>
+                <button class="tab-button px-4 py-2 text-gray-600 hover:text-[#614730]" data-tab="treatment">
+                    Treatment Options
+                </button>
+            </div>
+
+            <!-- Tab Contents -->
+            <div class="tab-content active" id="latest">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <a href="https://www.nature.com/neuro/" target="_blank" class="journal-card bg-white p-6 rounded-lg shadow-sm">
+                        <span class="text-xs bg-[#F5F5DC] text-[#614730] px-2 py-1 rounded-full">Latest</span>
+                        <h3 class="font-bold mt-2">Understanding Amyloid Beta Pathways</h3>
+                        <p class="text-sm text-gray-600 mt-2">New insights into the role of amyloid beta in early-stage Alzheimer's development.</p>
+                        <div class="flex items-center text-xs text-gray-500 mt-4">
+                            <i class="fas fa-calendar mr-1"></i> Published: March 2024
+                            <i class="fas fa-external-link-alt ml-2 text-[#614730]"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.jneurosci.org/" target="_blank" class="journal-card bg-white p-6 rounded-lg shadow-sm">
+                        <span class="text-xs bg-[#F5F5DC] text-[#614730] px-2 py-1 rounded-full">Latest</span>
+                        <h3 class="font-bold mt-2">Cognitive Decline Prevention</h3>
+                        <p class="text-sm text-gray-600 mt-2">Study on lifestyle interventions and their impact on cognitive function.</p>
+                        <div class="flex items-center text-xs text-gray-500 mt-4">
+                            <i class="fas fa-calendar mr-1"></i> Published: February 2024
+                            <i class="fas fa-external-link-alt ml-2 text-[#614730]"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="tab-content" id="clinical">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <a href="https://www.clinicaltrials.gov/" target="_blank" class="journal-card bg-white p-6 rounded-lg shadow-sm">
+                        <span class="text-xs bg-[#F5F5DC] text-[#614730] px-2 py-1 rounded-full">Clinical</span>
+                        <h3 class="font-bold mt-2">New Drug Development</h3>
+                        <p class="text-sm text-gray-600 mt-2">Phase III clinical trial results for novel Alzheimer's treatment.</p>
+                        <div class="flex items-center text-xs text-gray-500 mt-4">
+                            <i class="fas fa-calendar mr-1"></i> Published: December 2023
+                            <i class="fas fa-external-link-alt ml-2 text-[#614730]"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.nature.com/nm/" target="_blank" class="journal-card bg-white p-6 rounded-lg shadow-sm">
+                        <span class="text-xs bg-[#F5F5DC] text-[#614730] px-2 py-1 rounded-full">Clinical</span>
+                        <h3 class="font-bold mt-2">Genetic Markers in AD</h3>
+                        <p class="text-sm text-gray-600 mt-2">Identification of new genetic markers associated with Alzheimer's risk.</p>
+                        <div class="flex items-center text-xs text-gray-500 mt-4">
+                            <i class="fas fa-calendar mr-1"></i> Published: January 2024
+                            <i class="fas fa-external-link-alt ml-2 text-[#614730]"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="tab-content" id="prevention">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <a href="https://www.sciencedirect.com/journal/cortex" target="_blank" class="journal-card bg-white p-6 rounded-lg shadow-sm">
+                        <span class="text-xs bg-[#F5F5DC] text-[#614730] px-2 py-1 rounded-full">Prevention</span>
+                        <h3 class="font-bold mt-2">Memory Formation Studies</h3>
+                        <p class="text-sm text-gray-600 mt-2">Advanced research on memory formation and retention in aging brains.</p>
+                        <div class="flex items-center text-xs text-gray-500 mt-4">
+                            <i class="fas fa-calendar mr-1"></i> Published: November 2023
+                            <i class="fas fa-external-link-alt ml-2 text-[#614730]"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.nature.com/nrneurol/" target="_blank" class="journal-card bg-white p-6 rounded-lg shadow-sm">
+                        <span class="text-xs bg-[#F5F5DC] text-[#614730] px-2 py-1 rounded-full">Prevention</span>
+                        <h3 class="font-bold mt-2">Early Detection Methods</h3>
+                        <p class="text-sm text-gray-600 mt-2">Innovative approaches to early detection of Alzheimer's disease.</p>
+                        <div class="flex items-center text-xs text-gray-500 mt-4">
+                            <i class="fas fa-calendar mr-1"></i> Published: October 2023
+                            <i class="fas fa-external-link-alt ml-2 text-[#614730]"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="tab-content" id="treatment">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <a href="https://www.alz.org/research/for_researchers/grants" target="_blank" class="journal-card bg-white p-6 rounded-lg shadow-sm">
+                        <span class="text-xs bg-[#F5F5DC] text-[#614730] px-2 py-1 rounded-full">Treatment</span>
+                        <h3 class="font-bold mt-2">Amyloid Beta Pathways</h3>
+                        <p class="text-sm text-gray-600 mt-2">New treatment approaches targeting amyloid beta pathways.</p>
+                        <div class="flex items-center text-xs text-gray-500 mt-4">
+                            <i class="fas fa-calendar mr-1"></i> Published: September 2023
+                            <i class="fas fa-external-link-alt ml-2 text-[#614730]"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.alzheimersresearchuk.org/research/our-research/" target="_blank" class="journal-card bg-white p-6 rounded-lg shadow-sm">
+                        <span class="text-xs bg-[#F5F5DC] text-[#614730] px-2 py-1 rounded-full">Treatment</span>
+                        <h3 class="font-bold mt-2">Cognitive Enhancement</h3>
+                        <p class="text-sm text-gray-600 mt-2">Novel approaches to cognitive enhancement in early-stage patients.</p>
+                        <div class="flex items-center text-xs text-gray-500 mt-4">
+                            <i class="fas fa-calendar mr-1"></i> Published: August 2023
+                            <i class="fas fa-external-link-alt ml-2 text-[#614730]"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Two Column Layout for Timeline and Research Digest -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Research Timeline -->
+            <section data-aos="fade-up">
+                <div class="bg-white rounded-xl shadow-md p-6 h-full">
+                    <h2 class="text-xl font-bold mb-6 text-[#614730]">
+                        <i class="fas fa-history mr-2"></i> Research Timeline
+                    </h2>
+                    
+                    <div class="relative pl-8 border-l-2 border-[#614730] space-y-6">
+                        <div class="timeline-item relative pl-6">
+                            <div class="bg-[#F5F5DC] p-4 rounded-lg">
+                                <div class="text-sm text-[#8B4513] font-bold">1906</div>
+                                <h3 class="font-bold">First Identification</h3>
+                                <p class="text-gray-600 text-sm">Dr. Alois Alzheimer identifies amyloid plaques and neurofibrillary tangles</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item relative pl-6">
+                            <div class="bg-[#F5F5DC] p-4 rounded-lg">
+                                <div class="text-sm text-[#8B4513] font-bold">1984</div>
+                                <h3 class="font-bold">Beta-Amyloid Discovery</h3>
+                                <p class="text-gray-600 text-sm">Researchers identify beta-amyloid as main component of plaques</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item relative pl-6">
+                            <div class="bg-[#F5F5DC] p-4 rounded-lg">
+                                <div class="text-sm text-[#8B4513] font-bold">2022</div>
+                                <h3 class="font-bold">First Disease-Modifying Treatment</h3>
+                                <p class="text-gray-600 text-sm">FDA approves lecanemab, the first drug to slow progression</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Research Digest -->
+            <section data-aos="fade-up">
+                <div class="bg-white rounded-xl shadow-md p-6 h-full">
+                    <h2 class="text-xl font-bold mb-6 text-[#614730]">
+                        <i class="fas fa-envelope-open-text mr-2"></i> Research Digest
+                    </h2>
+                    
+                    <form class="space-y-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Email Address</label>
+                            <input type="email" class="w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Research Interests</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2">
+                                    <span>Early Detection</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2">
+                                    <span>Treatment Options</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2">
+                                    <span>Caregiver Support</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full px-6 py-2 bg-[#614730] text-white rounded hover:bg-[#4A3628] transition">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <footer class="bg-[#4A3628] text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">EverCare</h3>
+                    <p class="text-gray-300 mb-4">Supporting those affected by Alzheimer's with comprehensive care and resources.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="text-gray-300 hover:text-white">About Alzheimer's</a></li>
+                        <li><a href="tools.html" class="text-gray-300 hover:text-white">Tools & Resources</a></li>
+                        <li><a href="journals.html" class="text-gray-300 hover:text-white">Journals</a></li>
+                        <li><a href="help.html" class="text-gray-300 hover:text-white">Help Center</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="journals.html" class="text-gray-300 hover:text-white">Blog</a></li>
+                        <li><a href="journals.html" class="text-gray-300 hover:text-white">Research Updates</a></li>
+                        <li><a href="caregiver-community.html" class="text-gray-300 hover:text-white">Caregiver Guides</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-white">Memory Tips</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+                    <p class="text-gray-300 mb-2"><i class="fas fa-envelope mr-2"></i> support@evercare.com</p>
+                    <p class="text-gray-300 mb-2"><i class="fas fa-phone mr-2"></i> +91-9604416699</p>
+                    <p class="text-gray-300"><i class="fas fa-map-marker-alt mr-2"></i> PCCOE, PUNE</p>
+                </div>
+            </div>
+            <div class="border-t border-[#614730] mt-8 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 EverCare. All rights reserved. | <a href="#" class="hover:text-white">Privacy Policy</a> | <a href="#" class="hover:text-white">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/auth.js" onerror="console.error('Failed to load auth.js')"></script>
+    <script>
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Update UI based on authentication state
+        function updateAuthUI() {
+            const isLoggedIn = auth.isLoggedIn();
+            const loggedOutActions = document.querySelectorAll('.logged-out-actions');
+            const loggedInActions = document.querySelectorAll('.logged-in-actions');
+            const userName = document.querySelector('.user-name');
+            
+            if (isLoggedIn) {
+                loggedOutActions.forEach(el => el.style.display = 'none');
+                loggedInActions.forEach(el => el.style.display = 'flex');
+                const user = auth.getCurrentUser();
+                if (userName) userName.textContent = user.firstName;
+            } else {
+                loggedOutActions.forEach(el => el.style.display = 'flex');
+                loggedInActions.forEach(el => el.style.display = 'none');
+            }
+        }
+
+        // User dropdown menu
+        const userMenuBtn = document.querySelector('.user-menu button');
+        const userDropdown = document.querySelector('.user-dropdown');
+        
+        if (userMenuBtn && userDropdown) {
+            userMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userDropdown.classList.toggle('hidden');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                userDropdown.classList.add('hidden');
+            });
+        }
+
+        // Back to top button
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    // Add active class to clicked button and corresponding content
+                    button.classList.add('active');
+                    const tabId = button.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
